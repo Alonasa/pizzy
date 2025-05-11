@@ -1,0 +1,17 @@
+# Ignore node_modules (local and parent directory)
+node_modules
+../node_modules
+
+# Ignore IntelliJ/WebStorm project configuration folder
+.idea
+../.idea
+
+# Ignore compiled files and logs
+*.log
+*.idea/*
+*.iml
+*.iws
+
+
+# Ignore Editor-based HTTP Client requests
+/httpRequests/
