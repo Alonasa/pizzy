@@ -1,0 +1,35 @@
+* {
+    font-size: clamp(1rem, 2vw, 2rem);
+}
+
+/*Set height of half window for carousel*/
+.carousel-item {
+    height: 50vh;
+    object-fit: cover;
+}
+
+/*It helps to keep ratio of the image*/
+.carousel-item img {
+    height: auto;
+}
+
+/*Set font size, positioning of the text
+in the slider and shadow of the text for better accessibility
+for text shadow I used https://html-css-js.com/css/generator/text-shadow/
+just played with it at the beginning and then polished at devtools to fit my style
+*/
+.carousel-caption {
+    top: 40%;
+    text-shadow: 1px 1px 2px #000,
+    2px 2px 4px #333,
+    3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/*Set image ratio to 100% as its getting cropped on big screens*/
+@media screen and (min-width: 1000px) {
+    .carousel-item img {
+        height: 100%;
+        width: auto;
+    }
+}
+
