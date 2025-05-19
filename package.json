@@ -1,8 +1,30 @@
 {
-  "devDependencies": {
-    "browser-sync": "^3.0.4"
+  "name": "Pizzy",
+  "version": "1.0.0",
+  "description": "Pizzeria e-commerce website for Web development module",
+  "homepage": "https://github.com/Alonasa/pizzy",
+  "bugs": {
+    "url": "https://github.com/Alonasa/pizzy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alonasa/pizzy.git"
+  },
+  "license": "ISC",
+  "author": "Alona Skrypnyk",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "connect-browser-sync": "^2.1.0",
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.9.3"
   }
 }

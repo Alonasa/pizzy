@@ -50,51 +50,110 @@
 <main>
     <!-- Bootstrap "Carousel" implementation-->
     <!-- Block taken from:   https://getbootstrap.com/docs/5.3/components/carousel/-->
-        <div id="carouselAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="img/delivery.png" width="1536" height="1024" class="d-block img-fluid w-100" alt="pizza delivery">
-                    <div class="carousel-caption text-warning">
-                        <h5>Fast pizza delivery</h5>
-                        <p>We deliver hot pizza in less than hour</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/chef.png" width="1536" height="1024" class="d-block img-fluid w-100" alt="Our chef">
-                    <div class="carousel-caption text-warning">
-                        <h5>Fast pizza delivery</h5>
-                        <p>We deliver hot pizza in less than hour</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/pizza-friends.png" width="1536" height="1024" class="d-block w-100" alt="Visit our pizzeria with friends">
-                    <div class="carousel-caption text-warning">
-                        <h5>Fast pizza delivery</h5>
-                        <p>We deliver hot pizza in less than hour</p>
-                    </div>
+    <div id="carouselAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/delivery.png" width="1536" height="1024" class="d-block img-fluid w-100"
+                     alt="pizza delivery">
+                <div class="carousel-caption text-warning">
+                    <h5>Fast pizza delivery</h5>
+                    <p>We deliver hot pizza in less than hour</p>
                 </div>
             </div>
-
-            <div class="container">
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselAutoplaying"
-                        data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselAutoplaying"
-                        data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+            <div class="carousel-item">
+                <img src="img/chef.png" width="1536" height="1024" class="d-block img-fluid w-100" alt="Our chef">
+                <div class="carousel-caption text-warning">
+                    <h5>Fast pizza delivery</h5>
+                    <p>We deliver hot pizza in less than hour</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/pizza-friends.png" width="1536" height="1024" class="d-block w-100"
+                     alt="Visit our pizzeria with friends">
+                <div class="carousel-caption text-warning">
+                    <h5>Fast pizza delivery</h5>
+                    <p>We deliver hot pizza in less than hour</p>
+                </div>
             </div>
         </div>
+
+        <div class="container">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselAutoplaying"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselAutoplaying"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
     <!-- End Bootstrap "Carousel" implementation-->
 
     <h1 class="text-center visually-hidden">Pizzy Pizzeria</h1>
+
+<!--    products list-->
+<!--    .container used for centering cards on the page
+        .row to define flex container justify content around will center cards by itself
+        .g-2 define gaps
+        .col will define grid columns on different screens, small will take 100%, md 50%, lg 33%
+-->
+    <div class="container">
+        <div class="row justify-content-around g-2">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <!-- Product Card component
+                 https://getbootstrap.com/docs/5.3/components/card/-->
+                <div class="card">
+                    <div class="card-body">
+                        <img src="img/bbq-chicken.png" class="card-img-top" alt="pizza">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card’s content.</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="img/bbq-chicken.png" class="card-img-top" alt="pizza">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card’s content.</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="img/bbq-chicken.png" class="card-img-top" alt="pizza">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card’s content.</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </main>
 <footer class="d-flex justify-content-center">
     <nav>
-        <p class="text-primary">Copyright &copy; 2025</p>
+        <marquee class="text-primary">Copyright &copy; 2025</marquee>
     </nav>
 </footer>
 <script src="js/script.js"></script>
