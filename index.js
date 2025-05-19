@@ -31,10 +31,13 @@ const connection = mysql.createConnection({
     database: 'g00473376'
 })
 
+module.exports = connection;
 
-app.get('/catalog', (req, res) => {
+
+// GET all products from database
+app.get('/api/catalog', (req, res) => {
     const query = `
-        (SELECT 
+        (SELECT
         c.id AS category_id,
         c.title AS category_title,
         p.id AS product_id,
@@ -56,6 +59,7 @@ app.get('/catalog', (req, res) => {
     LEFT JOIN product_ingredient pr_ing ON p.id = pr_ing.product_id
     LEFT JOIN ingredient ing ON ing.id = pr_ing.ingredient_id AND pr_ing.category_id = p.category_id
     LEFT JOIN price pr ON pr.product_id = p.id AND pr.size_id = s.id AND pr.category_id=p.category_id
+    WHERE p.id IS NOT NULL
     GROUP BY 
         c.id, 
         c.title, 
@@ -72,7 +76,7 @@ app.get('/catalog', (req, res) => {
 
 UNION ALL
 
-(SELECT 
+(SELECT
         c.id AS category_id,
         c.title AS category_title,
         d.id AS product_id,
@@ -89,12 +93,13 @@ UNION ALL
     LEFT JOIN drink d ON c.id = d.category_id
     LEFT JOIN picture pi ON d.picture_id = pi.id
     LEFT JOIN price pr ON pr.product_id = d.id  AND pr.category_id=d.category_id
+    WHERE d.id IS NOT NULL
 )
 
 UNION ALL
 
 (
-        SELECT 
+        SELECT
         c.id AS category_id,
         c.title AS category_title,
         si.id AS product_id,
@@ -116,7 +121,7 @@ UNION ALL
     LEFT JOIN picture pi ON si.picture_id = pi.id
     LEFT JOIN product_ingredient pr_ing ON si.id = pr_ing.product_id
     LEFT JOIN ingredient ing ON ing.id = pr_ing.ingredient_id AND pr_ing.category_id = si.category_id
-    
+    WHERE si.id IS NOT NULL
     GROUP BY 
         c.id, 
         c.title, 
@@ -130,48 +135,13 @@ UNION ALL
         pr.value, 
         pi.url 
 )
-ORDER BY category_id, product_id, price ASC;
+ORDER BY category_id, product_id, price ASC
+;
 `;
 
     connection.query(query, (err, results) => {
         if (err) return res.status(500).send(err.message);
-
-        const catalog = {};
-
-        results.forEach(row => {
-            // Create category if it doesn't exist
-            if (!catalog[row.category_id]) {
-                catalog[row.category_id] = {
-                    title: row.category_title,
-                    products: {}
-                };
-            }
-
-
-            // Create product if it doesn't exist
-            if (!catalog[row.category_id].products[row.product_id]) {
-                catalog[row.category_id].products[row.product_id] = {
-                    title: row.product_title,
-                    description: row.description,
-                    ingredients: [row.ingredients],
-                    picture: row.picture_url,
-                    price: row.price,
-                    sizes: []
-                }
-            }
-
-            // Add size to product
-            if (row.size_id) {
-                catalog[row.category_id].products[row.product_id].sizes.push({
-                    title: row.size_title,
-                    weight: row.weight,
-                    price: row.price,
-                })
-            }
-        });
-
-        // Send the structured JSON object
-        res.json(catalog);
+        return res.json(results);
     });
 
 });
@@ -180,5 +150,5 @@ ORDER BY category_id, product_id, price ASC;
 // Added routes to application https://expressjs.com/en/guide/routing.html
 
 app.get("/login", (req, res) => {
-
-})
+    console.log("login");
+});
