@@ -3,9 +3,11 @@ const connection = require('../config/db'); // Import the database connection
 const router = express.Router();
 
 
-// GET home page from database
+// GET home page and fill it with data from database
+// Added routes to application https://expressjs.com/en/guide/routing.html
 router.get('/', (req, res) => {
-    const query = `
+    //Query to retrieve products from database
+    const sql = `
         (SELECT
         c.id AS category_id,
         c.title AS category_title,
@@ -108,7 +110,9 @@ ORDER BY category_id, product_id, price ASC
 ;
 `;
 
-    connection.query(query, (err, results) => {
+    // Send request to the database to get data
+    // https://www.w3schools.com/nodejs/nodejs_mysql.asp
+    connection.query(sql, (err, results) => {
         if (err) return res.status(500).send(err.message);
 
 
@@ -188,10 +192,5 @@ ORDER BY category_id, product_id, price ASC
 
 });
 
-// Added routes to application https://expressjs.com/en/guide/routing.html
-
-router.get("/login", (req, res) => {
-    console.log("login");
-});
 
 module.exports = router;
