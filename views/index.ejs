@@ -1,0 +1,115 @@
+<!-- Include the layout -->
+
+    <!--Include Caurosel-->
+    <%- include('chunks/caurosel') %>
+
+    <!--Finish Caurosel include-->
+
+    <h1 class="text-center visually-hidden">Pizzy Pizzeria</h1>
+
+    <!--    products list-->
+    <!--    .container used for centering cards on the page
+            .row to define flex container justify content around will center cards by itself
+            .g-2 define gaps
+            .col will define grid columns on different screens, small will take 100%, md 50%, lg 33%
+    -->
+    <div class="container">
+        <!--        Spinner Block -->
+        <!--  will be shown if there are no products in the database or we're waiting for the response from the server.
+      https://getbootstrap.com/docs/5.3/components/spinners/-->
+        <% if (products.length === 0) { %>
+            <!--.alert-message set the spinner size.
+                .text-warning set color to yellow
+                .visually hidden uses for the screen readers
+                -->
+            <p class="alert-message text-warning fw-bold">
+                Waiting for products
+                <span class="spinner-grow text-warning" role="status"></span>
+                <span class="spinner-grow text-warning" role="status"></span>
+                <span class="spinner-grow text-warning" role="status"></span>
+                <span class="visually-hidden">Loading...</span>
+            </p>
+        <% } %>
+        <!--        End spinner block-->
+
+
+        <!--        Generating products list-->
+        <% products.forEach(category => { %>
+            <!-- .rounded-3 make cards borders rounded, alternative to border-radius in css
+            .p-3 add paddings
+
+            -->
+            <h2 class="text-bg-warning rounded-3 p-3 my-3"
+                id="<%= category.category_title.toLowerCase() %>"><%= category.category_title %></h2>
+            <!--.g-2 add gaps between cards-->
+            <div class="row justify-content-around g-2">
+                <% category.products.forEach(product => { %>
+                    <!--                    col-sm-12 for small screens full-width-->
+                    <!--                    col-md-6 for medium screens 50%-->
+                    <!--                    col-lg-4 large screens 33%-->
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+
+                        <!--Card component-->
+                        <!-- I used version https://getbootstrap.com/docs/5.3/components/card/
+                        make a some modifications
+                        .h-100 for make all cards in the row have same height as by
+                        default they are dependent of content size
+                        -->
+                        <div class="card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <img src="/img/<%= product.picture_url %>" class="card-img-top"
+                                     alt="Order hot <%= product.product_title %>">
+                                <h3 class="card-title"><%= product.product_title %></h3>
+                                <p class="card-text"><%= product.description %></p>
+
+                                <% if (product.variations && product.variations.length > 0) { %>
+                                    <!--Start of button group-->
+                                    <!--Used for generate product options. Used: https://getbootstrap.com/docs/5.3/components/button-group/-->
+                                    <div class="btn-group mb-2" aria-label="Size selection">
+                                        <% product.variations.forEach((variation, index) => { %>
+                                            <button
+                                                    class="btn btn-outline-secondary <%= index === 0 ? 'active' : '' %>"
+                                                    onclick="updatePrice('<%= product.category_id %>','<%= product.product_id %>', '<%= variation.price.toFixed(2) %>', this)">
+                                                <%= variation.size_title %>
+                                            </button>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+
+                                <h6 class="card-subtitle mb-2 text-body-secondary"
+                                    id="price-display-<%= product.category_id %>-<%= product.product_id %>">
+                                    <%= product.price %>&#8364; <!-- Default price -->
+                                </h6>
+
+                                <% if (product.ingredients) { %>
+                                    <!--.small make text font-size smaller-->
+                                    <p class="small">Ingredients: <span><%= product.ingredients %></span></p>
+                                <% } %>
+                                <!--btn for add to cart, btn-warning means that btn will be yellow, btn-sm means that btn will be small,-->
+                                <button class="btn btn-warning btn-sm">Add to cart</button>
+                            </div>
+                        </div>
+
+                        <!--End of card component-->
+                    </div>
+                <% }); %>
+            </div>
+        <% }); %>
+        <!--        End of products list-->
+
+    </div>
+
+
+
+
+
+<% scripts=`
+<!--Import price updater module-->
+<script type="module">
+    import  updatePrice  from '/js/priceUpdater.js';
+
+    // Attach "updatePrice" to the global "window" object
+    window.updatePrice = updatePrice;
+</script>
+<!--End Import -->
+`; %>
