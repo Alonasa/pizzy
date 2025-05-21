@@ -46,14 +46,14 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
     <% if (showPassword) { %>
         <div class="col-sm-12 col-md-6 mb-3">
             <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <input type="password" class="form-control" id="password" name="password" minlength="4" required>
         </div>
     <% } %>
     <!-- Confirm Password -->
     <% if (showConfirmPassword) { %>
         <div class="col-sm-12 col-md-6 mb-3">
             <label for="confirm-password" class="form-label">Confirm Password:</label>
-            <input type="password" class="form-control" id="confirm-password" name="confirm-password"  required>
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password" min="4"  required>
         </div>
     <% } %>
 </div>

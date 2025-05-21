@@ -61,10 +61,20 @@ and set height to full screen height
 text-shadow added to make text better visible
 */
 .error-page {
-    background: url("../img/404.png") center center no-repeat;
     min-height: 100vh;
     text-shadow: 2px 2px 4px rgb(0 0 0 / 70%),
     2px 0 3px rgb(57 17 26 / 50%);
+}
+
+
+/*image for 404 page*/
+.f04 {
+    background: url("../img/404.png") center center/cover no-repeat;
+}
+
+/*image for server errors*/
+.f05 {
+    background: url("../img/500.png") center center/cover no-repeat;
 }
 
 /*Make label being inline elements which

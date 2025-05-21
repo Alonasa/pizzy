@@ -1,26 +1,18 @@
 <% title=`Pizzy - Best pizzeria`; %>
+
 <!--Include Caurosel-->
 <%- include('chunks/caurosel') %>
-
 <!--Finish Caurosel include-->
 
 <h1 class="text-center visually-hidden">Order best hot pizza Online</h1>
 
 <!--    products list-->
-<!--    .container used for centering cards on the page
-        .row to define flex container justify content around will center cards by itself
-        .g-2 define gaps
-        .col will define grid columns on different screens, small will take 100%, md 50%, lg 33%
--->
 <div class="container">
-    <!--        Spinner Block -->
+
+    <!--  Spinner Block -->
     <!--  will be shown if there are no products in the database, or we're waiting for the response from the server.
   https://getbootstrap.com/docs/5.3/components/spinners/-->
     <% if (products.length === 0) { %>
-        <!--.alert-message set the spinner size.
-            .text-warning set color to yellow
-            .visually hidden uses for the screen readers
-            -->
         <p class="alert-message text-warning fw-bold">
             Waiting for products
             <span class="spinner-grow text-warning" role="status"></span>
@@ -36,7 +28,6 @@
     <% products.forEach(category => { %>
         <!-- .rounded-3 make cards borders rounded, alternative to border-radius in css
         .p-3 add paddings
-
         -->
         <h2 class="text-bg-warning rounded-3 p-3 my-3"
             id="<%= category.category_title.toLowerCase() %>"><%= category.category_title %></h2>
@@ -68,7 +59,7 @@
                                     <% product.variations.forEach((variation, index) => { %>
                                         <button
                                                 class="btn btn-outline-secondary <%= index === 0 ? 'active' : '' %>"
-                                                onclick="updatePrice('<%= product.category_id %>','<%= product.product_id %>', '<%= variation.price.toFixed(2) %>', this)">
+                                                onclick="updatePrice('<%= product.category_id %>','<%= product.product_id %>', '<%= variation.price.toFixed(2) %>', '<%= variation.size_id %>', '<%= variation.size_title %>', this)">
                                             <%= variation.size_title %>
                                         </button>
                                     <% }); %>
@@ -85,7 +76,7 @@
                                 <p class="small">Ingredients: <span><%= product.ingredients %></span></p>
                             <% } %>
                             <!--btn for add to cart, btn-warning means that btn will be yellow, btn-sm means that btn will be small,-->
-                            <button class="btn btn-warning btn-sm">Add to cart</button>
+                            <button class="btn btn-warning btn-sm" onclick="addToCart('<%= product.product_id%>', '<%= product.product_title %>')">Add to cart</button>
                         </div>
                     </div>
 
@@ -102,10 +93,11 @@
 <% scripts = `
 <!--Import price updater module-->
 <script type="module">
-    import  updatePrice  from '/js/priceUpdater.js';
+    import  {updatePrice, addToCart}  from '/js/productsUpdater.js';
 
     // Attach "updatePrice" to the global "window" object
     window.updatePrice = updatePrice;
+    window.addToCart = addToCart;
 </script>
 <!--End Import -->
 `; %>

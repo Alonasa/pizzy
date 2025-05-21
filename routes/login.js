@@ -33,20 +33,31 @@ router.get('/', (req, res) => {
 //POST login user
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.post('/', (req, res) => {
-    let {full_name, phone, email, address, password} = req.body;
-    if (connection) {
-        //Query to retrieve products from database
-        const sql = `SELECT * FROM customer WHERE email = ? AND password = ?;`
+    let {email, password} = req.body;
+    //Query to retrieve products from database
+    const sql = `SELECT * FROM customer WHERE email = ? AND password = ?;`
 
 
-        // Send request to the database to get data
-        // https://www.w3schools.com/nodejs/nodejs_mysql.asp
-        connection.query(sql, [email, password], (err, results) => {
-            if (err) return res.status(500).send(err.message);
-            console.log(results);
-        })
+    // Send request to the database to get data
+    // https://www.w3schools.com/nodejs/nodejs_mysql.asp
+    connection.query(sql, [email, password], (err, results) => {
+        if (err) return res.status(500).send(err.message);
+        // Check if user exists
+        if (results.length > 0) {
+            // User is found, save user info in session
+            req.session.cart = req.session.cart || [];
+            req.session.user = email;
+            req.session.user_id = results[0].id;// Store email in session
+            console.log(req.session.cart);
+            console.log(req.session.user_id);
+            return res.redirect('/user'); // Redirect to user profile
+        } else {
+            // User not found
+            res.redirect('/login?error=Invalid email or password.');
+        }
 
-    }
+    })
+
 });
 
 module.exports = router;

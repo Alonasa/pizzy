@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
 
         // Send request to the database to get data
         // https://www.w3schools.com/nodejs/nodejs_mysql.asp
-        connection.query(sql, [full_name, phone, email, address, password], (err, results) => {
+        connection.query(sql, [full_name, phone, email, address, password], (err) => {
             if (err) return res.status(500).send(err.message);
         })
         res.redirect('/');
