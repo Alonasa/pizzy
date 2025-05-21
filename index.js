@@ -7,6 +7,7 @@ const session = require('express-session'); //module for work with sessions
 const path = require('path');
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
 
 const app = express();
@@ -19,7 +20,7 @@ app.use(express.json());
 // livereload settlement
 const livereload = require('livereload');
 const connectLivereload = require('connect-livereload');
-const e = require("express");
+const e = require('express');
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(__dirname + 'views/*');
 app.use(connectLivereload());
@@ -38,19 +39,23 @@ app.set('layout', 'layout');
 // Defined Routes
 app.use('/', indexRouter); //root
 app.use('/register', registerRouter);//register
+app.use('/login', loginRouter);//login
 
 
 
-// Catch-all error handling
+// Catch-all error handling and retur 404
 app.use((req, res) => {
-    res.status(404).send('Page Not Found!');
+    res.status(404).render('404', {
+        title: '404 - Page Not Found',
+        message: 'The page you are looking for does not exist!'
+    });
 });
 
 app.listen(PORT);
 
 //Reload delete for production
-liveReloadServer.server.once("connection", () => {
+liveReloadServer.server.once('connection', () => {
     setTimeout(() => {
-        liveReloadServer.refresh("/");
+        liveReloadServer.refresh('/');
     }, 100);
 });
