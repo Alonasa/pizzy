@@ -1,4 +1,5 @@
-/*Set font sizes which will grow depending of the screen size*/
+/*Set font sizes which will grow depending
+of the screen size*/
 * {
     font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
@@ -27,9 +28,11 @@ main {
 }
 
 /*Set font size, positioning of the text
-in the slider and shadow of the text for better accessibility
-for text shadow I used https://html-css-js.com/css/generator/text-shadow/
-just played with it at the beginning and then polished at devtools to fit my style
+in the slider and shadow of the text for
+better accessibility for text shadow I used
+https://html-css-js.com/css/generator/text-shadow/
+just played with it at the beginning and then
+polished at devtools to fit my style
 */
 .carousel-caption {
     top: 40%;
@@ -43,7 +46,8 @@ just played with it at the beginning and then polished at devtools to fit my sty
     height: 100%;
 }
 
-/*Set image ratio to 100% as its getting cropped on big screens*/
+/*Set image ratio to 100% as its getting
+cropped on big screens*/
 @media screen and (min-width: 1000px) {
     .carousel-item img {
         height: 100%;
@@ -52,7 +56,19 @@ just played with it at the beginning and then polished at devtools to fit my sty
 }
 
 
-/*Make label being inline elements which remove unwanted gaps*/
+/*Added background image to 404 page
+and set height to full screen height
+text-shadow added to make text better visible
+*/
+.error-page {
+    background: url("../img/404.png") center center no-repeat;
+    min-height: 100vh;
+    text-shadow: 2px 2px 4px rgb(0 0 0 / 70%),
+    2px 0 3px rgb(57 17 26 / 50%);
+}
+
+/*Make label being inline elements which
+remove unwanted gaps*/
 .form-label {
     display: inline;
 }

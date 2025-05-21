@@ -8,6 +8,7 @@ const path = require('path');
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
+const errRouter = require('./routes/404');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
 
 const app = express();
@@ -43,11 +44,13 @@ app.use('/login', loginRouter);//login
 
 
 
-// Catch-all error handling and retur 404
+// Catch-all error handling and return 404
 app.use((req, res) => {
     res.status(404).render('404', {
         title: '404 - Page Not Found',
-        message: 'The page you are looking for does not exist!'
+        message: 'The page you\'re looking for doesn\'t exist or has been moved.',
+        layout: 'layout',
+        scripts: null
     });
 });
 

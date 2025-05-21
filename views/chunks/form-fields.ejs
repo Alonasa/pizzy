@@ -8,11 +8,12 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 <!-- col-md-6 for medium screens 50%-->
 <!-- col-lg-4 large screens 33%-->
 <!-- mb-3 added margin bottom -->
+<!--text-start move text to the left-->
 
-<div class="row text-warning">
+<div class="row text-warning text-start">
     <!-- Full Name -->
     <% if (showFullName) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="full_name" class="form-label">Full Name:</label>
             <input type="text" class="form-control" id="full_name" name="full_name" required>
         </div>
@@ -20,7 +21,7 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 
     <!-- Phone -->
     <% if (showPhone) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="phone" class="form-label">Phone:</label>
             <input type="tel" class="form-control" id="phone" name="phone" required>
         </div>
@@ -28,14 +29,14 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 
     <!-- Email -->
     <% if (showEmail) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="email" class="form-label">Email:</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
     <% } %>
     <!-- Address -->
     <% if (showAddress) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="address" class="form-label">Address:</label>
             <input type="text" class="form-control" id="address" name="address" required>
         </div>
@@ -43,14 +44,14 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 
     <!-- Password -->
     <% if (showPassword) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="password" class="form-label">Password:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
     <% } %>
     <!-- Confirm Password -->
     <% if (showConfirmPassword) { %>
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+        <div class="col-sm-12 col-md-6 mb-3">
             <label for="confirm-password" class="form-label">Confirm Password:</label>
             <input type="password" class="form-control" id="confirm-password" name="confirm-password"  required>
         </div>
