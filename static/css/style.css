@@ -51,3 +51,9 @@ just played with it at the beginning and then polished at devtools to fit my sty
     }
 }
 
+
+/*Make label being inline elements which remove unwanted gaps*/
+.form-label {
+    display: inline;
+}
+

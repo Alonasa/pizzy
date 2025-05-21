@@ -6,11 +6,14 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); //module for work with sessions
 const path = require('path');
 const indexRouter = require('./routes/index');
+const registerRouter = require('./routes/register');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
 
-
-
 const app = express();
+
+// Middleware to parse incoming form data and JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 // livereload settlement
@@ -22,12 +25,6 @@ liveReloadServer.watch(__dirname + 'views/*');
 app.use(connectLivereload());
 app.use(expressLayouts)
 
-
-
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
 //Serves all files from the `static` directory
 app.use(express.static(path.join(__dirname, '/static')));
 
@@ -37,8 +34,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.set('layout', 'layout');
-//Rendering index page from routes
-app.use('/', indexRouter);
+
+// Defined Routes
+app.use('/', indexRouter); //root
+app.use('/register', registerRouter);//register
+
+
+
+// Catch-all error handling
+app.use((req, res) => {
+    res.status(404).send('Page Not Found!');
+});
+
 app.listen(PORT);
 
 //Reload delete for production

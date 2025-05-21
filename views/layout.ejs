@@ -1,12 +1,13 @@
 <!--Index.ejs-->
-<!--    EJS is used as templating engine for node.-->
-<!--    https://www.geeksforgeeks.org/use-ejs-as-template-engine-in-node-js/-->
+<!-- EJS is used as templating engine for node.-->
+<!-- https://www.geeksforgeeks.org/use-ejs-as-template-engine-in-node-js/-->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--title is placeholder for title of page syntax ejs-->
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Bootstrap CSS -->
@@ -40,7 +41,7 @@
                            data-bs-toggle="dropdown" aria-expanded="false">
                             User
                         </a>
-                        <!--                        Used dropdown-menu-dark class to change color of dropdown menu as default is white-->
+                        <!--Used dropdown-menu-dark class to change color of dropdown menu as default is white-->
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/login">Login</a></li>
                             <li><a class="dropdown-item" href="/register">Register</a></li>
@@ -53,7 +54,8 @@
     <!-- End Bootstrap "Navbar" implementation-->
 </header>
 <main>
-    <!--    Placeholder for main content-->
+    <!-- Placeholder for main content-->
+    <!-- Example taken: https://www.geeksforgeeks.org/use-ejs-as-template-engine-in-node-js/-->
     <%- body %>
     <!--    End placeholder for main content-->
 
@@ -68,8 +70,12 @@
         <marquee class="text-alert">Copyright &copy; 2025</marquee>
     </nav>
 </footer>
-<!-- Placeholder for scripts -->
+
+<!-- Placeholder for scripts EJS template-->
+<% if (scripts) { %>
     <%- scripts %>
+<% } %>
 <!--End placeholder for scripts-->
+
 </body>
 </html>

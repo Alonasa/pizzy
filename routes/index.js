@@ -42,12 +42,11 @@ router.get('/', (req, res) => {
         s.title, 
         w.value, 
         pr.value, 
-        pi.url
-)
+        pi.url)
 
-UNION ALL
+    UNION ALL
 
-(SELECT
+    (SELECT
         c.id AS category_id,
         c.title AS category_title,
         d.id AS product_id,
@@ -64,13 +63,11 @@ UNION ALL
     LEFT JOIN drink d ON c.id = d.category_id
     LEFT JOIN picture pi ON d.picture_id = pi.id
     LEFT JOIN price pr ON pr.product_id = d.id  AND pr.category_id=d.category_id
-    WHERE d.id IS NOT NULL
-)
+    WHERE d.id IS NOT NULL)
 
-UNION ALL
+    UNION ALL
 
-(
-        SELECT
+    (SELECT
         c.id AS category_id,
         c.title AS category_title,
         si.id AS product_id,
@@ -83,7 +80,6 @@ UNION ALL
         pr.value AS price,
         pi.url AS picture_url,
         GROUP_CONCAT(DISTINCT ing.title ORDER BY ing.title SEPARATOR ', ') AS ingredients
-        
     FROM category c
     LEFT JOIN side si ON c.id = si.category_id
     LEFT JOIN weight w ON w.product_id = si.id AND w.category_id = si.category_id
@@ -105,20 +101,17 @@ UNION ALL
         w.value,
         pr.value, 
         pi.url 
-)
-ORDER BY category_id, product_id, price ASC
-;
-`;
+    )
+    ORDER BY category_id, product_id, price ASC;`;
 
     // Send request to the database to get data
     // https://www.w3schools.com/nodejs/nodejs_mysql.asp
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).send(err.message);
 
-
         const consolidateByCategory = (data) => {
             const consolidated = {};
-
+            //Iterate over each item and destructuring variables for future use
             data.forEach(item => {
                 const {
                     category_id,
@@ -159,6 +152,7 @@ ORDER BY category_id, product_id, price ASC
                         ingredients,
                         variations: [] // Initialize variations array for the product
                     };
+                    //Add products to products array in certain category
                     consolidated[category_id].products.push(productEntry);
                 }
 
@@ -177,12 +171,13 @@ ORDER BY category_id, product_id, price ASC
             return Object.values(consolidated);
         };
 
-// Call the function and get the consolidated data
+        // Call the function and get the consolidated data
         const consolidated = consolidateByCategory(results);
 
-// Output the result as JSON
+        // Output the result as JSON
         console.log(JSON.stringify(consolidated, null, 2));
 
+        // render index page and pass there data which received from database
         res.render('index', {
             layout: 'layout',
             products: consolidated
