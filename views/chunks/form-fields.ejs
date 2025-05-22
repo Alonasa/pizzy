@@ -12,6 +12,10 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 
 <div class="row text-warning text-start">
     <!-- Full Name -->
+    <% if (!formTitle) { %>
+
+    <% } %>
+
     <% if (showFullName) { %>
         <div class="col-sm-12 col-md-6 mb-3">
             <label for="full_name" class="form-label">Full Name:</label>
@@ -52,8 +56,8 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
     <!-- Confirm Password -->
     <% if (showConfirmPassword) { %>
         <div class="col-sm-12 col-md-6 mb-3">
-            <label for="confirm-password" class="form-label">Confirm Password:</label>
-            <input type="password" class="form-control" id="confirm-password" name="confirm-password" min="4"  required>
+            <label for="confirm_password" class="form-label">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" min="4"  required>
         </div>
     <% } %>
 </div>

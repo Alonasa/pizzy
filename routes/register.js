@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
         formMethod: "POST",
         formAction: "/register",
         formId: "registerForm",
+        formMessage: null,
         scripts: null
     });
 });
@@ -34,19 +35,19 @@ router.get('/', (req, res) => {
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.post('/', (req, res) => {
     let {full_name, phone, email, address, password} = req.body;
-    if (connection) {
-        //Query to retrieve products from database
-        const sql = `INSERT INTO customer (full_name, phone, email, address, password)
-                     VALUES (?, ?, ?, ?, ?);`
 
+    // Send request to the database to get data
+    // https://www.w3schools.com/nodejs/nodejs_mysql.asp
+    const insertQuery = 'INSERT INTO customer (full_name, phone, email, address, password) VALUES (?, ?, ?, ?, ?)';
+    connection.query(insertQuery, [full_name, phone, email, address, password], (err) => {
+        if (err) {
+            return res.redirect('/login');
+        }
 
-        // Send request to the database to get data
-        // https://www.w3schools.com/nodejs/nodejs_mysql.asp
-        connection.query(sql, [full_name, phone, email, address, password], (err) => {
-            if (err) return res.status(500).send(err.message);
-        })
-        res.redirect('/');
-    }
+        console.log('User registered successfully, redirecting to /user');
+        req.session.user = email;
+        return res.redirect('/user');
+    });
 });
 
 module.exports = router;

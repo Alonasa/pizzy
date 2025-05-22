@@ -79,8 +79,8 @@
     <!--End placeholder for main content-->
 
 
-<!--    Modal for cart-->
-<!--    https://getbootstrap.com/docs/5.3/components/modal/#how-it-works-->
+    <!--    Modal for cart-->
+    <!--    https://getbootstrap.com/docs/5.3/components/modal/#how-it-works-->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-<!--    End modal-->
+    <!--    End modal-->
 
     <!-- Bootstrap JS -->
     <!-- Connection of bootstrap via CDN https://getbootstrap.com/-->
@@ -108,7 +108,16 @@
 
 <!--Popup script-->
 <script>
-    document.getElementById('openCartButton').addEventListener('click', function() {
+    if (!localStorage.getItem('user_id')) {
+        <% if(session.user) { %>
+            localStorage.setItem('user_id', <%= JSON.stringify(session.user_id) %>);
+        <% } %>
+    }
+    <% if( !session.user ) {  %>
+        sessionStorage.setItem('user_id', localStorage.getItem('user'));
+    <% } %>
+
+    document.getElementById('openCartButton').addEventListener('click', function () {
         fetch('/cart')
             .then(response => response.text())
             .then(data => {

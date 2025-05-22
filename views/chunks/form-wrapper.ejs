@@ -1,5 +1,9 @@
 <div class="container">
     <h1 class="text-center text-warning mt-5"><%= formTitle %></h1>
+    <h3><% if (formMessage) {%>
+            <%= formMessage %>
+        <% } %>
+    </h3>
     <form id="<%= formId %>" action="<%= formAction %>" method="<%= formMethod %>" class="mt-4">
         <!--Generate file chunk from template formFieldsConfig will
          come to us from server request and can be reusable

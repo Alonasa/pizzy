@@ -7,30 +7,35 @@ const connection = require('../config/db'); // Import the database connection
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.get('/', (req, res) => {
     console.log(req.session)
-    const customerId = session.user_id; // Get customer ID from session
-    const cartItems = session.cart || []; // Get cart items from session
+    const customerId = req.session.user_id; // Get customer ID from session
+    const cartItems = req.session.cart || []; // Get cart items from session
 
     if (!customerId) {
-        return res.status(400).send('Customer ID not found.');
+        return res.redirect('/login');
     }
 
     if (cartItems.length === 0) {
-        return res.status(400).send('No items in cart.');
+        return res.status(400).render('errors', {
+            header: 'Something went wrong!',
+            helper: 'errors',
+            title: 'Sorry!',
+            message: 'Something went wrong. Please try to place your order later!',
+            scripts: null,
+        });
     }
 
     // Calculate order sum
     const orderSum = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
     const orderDate = new Date(); // Current date
-    const comment = req.body.comment || ''; // Any comment from the user
-    const newAddress = req.body.address || ''; // New address if provided
+    // const comment = req.body.comment || ''; // Any comment from the user
+    // const newAddress = req.body.address || ''; // New address if provided
 
     // Insert order into orders table
     const insertOrderQuery = `
-        INSERT INTO orders (customer_id, order_sum, order_date, comment, new_address)
-        VALUES (?, ?, ?, ?, ?);
+        INSERT INTO \`order\` (customer_id, order_summ, comment, new_address)
+        VALUES (?, ?, ?, ?);
     `;
-    const orderValues = [customerId, orderSum, orderDate, comment, newAddress];
-    console.log(session.cart)
+    const orderValues = [customerId, Number(orderSum), null, null];
 
     connection.query(insertOrderQuery, orderValues, (error, results) => {
         if (error) {
@@ -53,7 +58,7 @@ function insertOrderItems(orderId, cartItems, res, req) {
     `;
 
     cartItems.forEach(item => {
-        const orderItemValues = [orderId, item.product_id, item.quantity, item.category_id, item.size];
+        const orderItemValues = [orderId, item.product_id, item.quantity, item.category_id, item.sizeId];
         connection.query(insertOrderItemsQuery, orderItemValues, (error) => {
             if (error) {
                 console.error('Error inserting order item:', error);
@@ -63,8 +68,14 @@ function insertOrderItems(orderId, cartItems, res, req) {
     });
 
     // Clear the cart after processing the order
-    session.cart = []; // Clear the cart
-    res.status(200).send('Order placed successfully!'); // Send success message
+    req.session.cart = []; // Clear the cart
+    res.status(200).render('errors', {
+        header: 'Order placed successfully!',
+        helper: 'success-page',
+        title: 'Congratulations!',
+        message: `Order #${orderId} placed successfully!`,
+        scripts: null
+    });
 }
 
 module.exports = router;

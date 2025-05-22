@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
         formMethod: "POST",
         formAction: "/login",
         formId: "loginForm",
+        formMessage: null,
         scripts: null
     });
 });
@@ -48,8 +49,6 @@ router.post('/', (req, res) => {
             req.session.cart = req.session.cart || [];
             req.session.user = email;
             req.session.user_id = results[0].id;// Store userid in session
-            console.log(req.session.cart);
-            console.log(req.session.user_id);
             return res.redirect('/user'); // Redirect to user profile
         } else {
             // User not found

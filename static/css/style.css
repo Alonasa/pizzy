@@ -77,6 +77,16 @@ text-shadow added to make text better visible
     background: url("../img/500.png") center center/cover no-repeat;
 }
 
+/*image for random errors errors*/
+.errors {
+    background: url("../img/error.png") center center/cover no-repeat;
+}
+
+/*image for success messages*/
+.success-page {
+    background: url("../img/success.png") center center/cover no-repeat;
+}
+
 /*Make label being inline elements which
 remove unwanted gaps*/
 .form-label {

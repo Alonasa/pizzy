@@ -58,7 +58,7 @@ function isAuthenticated(req, res, next) {
         return next();
     }
     // Redirect to login if not authenticated
-    res.redirect('/login');
+    return res.redirect('/login');
 }
 
 
@@ -124,16 +124,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-
-
 app.listen(PORT);
-
-//Reload delete for production
-liveReloadServer.server.once('connection', () => {
-    setTimeout(() => {
-        liveReloadServer.refresh('/');
-    }, 100);
-});
 
 
 module.exports = isAuthenticated;

@@ -10,7 +10,6 @@ function updatePrice(categoryID, productId, price, weight, size_id, size, button
     weightDisplay.innerHTML = `${weight} g`;
 
     selectedPrice = price;
-    console.log(selectedPrice)
     selectedSize = size;
     selectedSizeId = size_id;
 
@@ -38,7 +37,6 @@ function setToNull(){
 }
 
 function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeIdDefault, sizeDefault, price, size) {
-    console.log(size);
     const data = {
         title: title,
         image: pictureUrl,
@@ -52,8 +50,6 @@ function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeI
 
     // clean last selected item
     setToNull()
-
-
 
     fetch('/add-item', {
         method: 'POST',

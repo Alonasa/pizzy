@@ -9,7 +9,7 @@ const router = express.Router(); //Created router instance and save it to variab
 //at scripts we pass scripts if our page need them other ways null
 // Made from sample: https://expressjs.com/en/5x/api.html#res.render
 
-router.get('/', (req, res) => {
+router.get('/', isAuthenticated, (req, res) => {
     //Query to retrieve products from database
     const sql = `SELECT * FROM customer WHERE email = ?;`
 
