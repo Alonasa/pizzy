@@ -1,14 +1,24 @@
 const express = require('express');//Import express
-const connection = require('../config/db');// Import the database connection
 const router = express.Router(); //Created router instance and save it to variable
+const connection = require('../config/db');// Import the database connection
 
 
-//GET register page
+//Middleware to check if user is authenticated
+//Will be exported to access in some modules
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    }
+    // Redirect to login page if not authenticated
+    return res.redirect('/login');
+}
+
+
+//GET user page
 // in render body we pass parameters for the page,
 // at formFieldsConfig turning on form fields on our page
 //at scripts we pass scripts if our page need them other ways null
 // Made from sample: https://expressjs.com/en/5x/api.html#res.render
-
 router.get('/', isAuthenticated, (req, res) => {
     //Query to retrieve products from database
     const sql = `SELECT * FROM customer WHERE email = ?;`

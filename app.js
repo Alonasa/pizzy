@@ -13,20 +13,13 @@ const addToCartRouter = require('./routes/add-item');
 const removeFromCartRouter = require('./routes/remove-item');
 const getCartRouter = require('./routes/cart');
 const checkoutRouter = require('./routes/checkout');
+const logoutRouter = require('./routes/logout');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
 const app = express();
 
 // Middleware to parse incoming form data and JSON
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
-
-// livereload settlement
-const livereload = require('livereload');
-const connectLivereload = require('connect-livereload');
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(__dirname + 'views/*');
-app.use(connectLivereload());
 app.use(expressLayouts)
 
 //Serves all files from the `static` directory
@@ -50,18 +43,6 @@ app.use(session({
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30} // Session cookie expiration 1 month
 }));
 
-
-//Middleware to check if user is authenticated
-//Will be exported to access in some modules
-function isAuthenticated(req, res, next) {
-    if (req.session && req.session.user) {
-        return next();
-    }
-    // Redirect to login if not authenticated
-    return res.redirect('/login');
-}
-
-
 //Make session available in templates
 //Helps to identify user on all templates
 app.use((req, res, next) => {
@@ -79,6 +60,7 @@ app.use('/add-item', addToCartRouter);//adding to cart
 app.use('/remove-item', removeFromCartRouter);//remove from cart
 app.use('/cart', getCartRouter);//get items for cart
 app.use('/checkout', checkoutRouter);//checkout
+app.use('/logout', logoutRouter);// logout
 
 
 // Handle 404 Not Found errors
@@ -125,6 +107,3 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT);
-
-
-module.exports = isAuthenticated;

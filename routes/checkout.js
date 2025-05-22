@@ -7,7 +7,7 @@ const connection = require('../config/db'); // Import the database connection
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.get('/', (req, res) => {
     console.log(req.session)
-    const customerId = req.session.user_id; // Get customer ID from session
+    const customerId = req.session.user; // Get customer from session
     const cartItems = req.session.cart || []; // Get cart items from session
 
     if (!customerId) {
@@ -26,7 +26,6 @@ router.get('/', (req, res) => {
 
     // Calculate order sum
     const orderSum = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-    const orderDate = new Date(); // Current date
     // const comment = req.body.comment || ''; // Any comment from the user
     // const newAddress = req.body.address || ''; // New address if provided
 
