@@ -10,14 +10,10 @@ const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const userRouter = require('./routes/user');
 const addToCartRouter = require('./routes/add-item');
+const removeFromCartRouter = require('./routes/remove-item');
+const getCartRouter = require('./routes/cart');
+const checkoutRouter = require('./routes/checkout');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
-
-/**
- * The `app` variable represents an instance of an Express application.
- * It is used to configure the application's middleware, routes, and behavior.
- * The `app` instance is the central component for handling HTTP requests
- * and defining server functionality in an Express.js application.
- */
 const app = express();
 
 // Middleware to parse incoming form data and JSON
@@ -28,19 +24,6 @@ app.use(express.json());
 // livereload settlement
 const livereload = require('livereload');
 const connectLivereload = require('connect-livereload');
-/**
- * Represents a LiveReload server instance created using the `livereload` library.
- * The LiveReload server listens for changes in the file system and automatically
- * refreshes connected clients' web pages when changes are detected.
- *
- * This object is used to manage the LiveReload server instance and can be configured
- * to monitor specific files or directories for updates, providing a more efficient
- * development workflow by enabling real-time browser reloading.
- *
- * It relies on the livereload library to create and configure the server.
- *
- * @type {Object}
- */
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(__dirname + 'views/*');
 app.use(connectLivereload());
@@ -70,16 +53,6 @@ app.use(session({
 
 //Middleware to check if user is authenticated
 //Will be exported to access in some modules
-/**
- * Middleware function to check if the user is authenticated.
- * If the user is authenticated, proceeds to the next middleware or route handler.
- * If not authenticated, redirects the user to the login page.
- *
- * @param {Object} req - The HTTP request object, which contains the session and user data.
- * @param {Object} res - The HTTP response object used to manage the HTTP response.
- * @param {Function} next - The next middleware or route handler to be executed.
- * @return {void}
- */
 function isAuthenticated(req, res, next) {
     if (req.session && req.session.user) {
         return next();
@@ -98,27 +71,30 @@ app.use((req, res, next) => {
 
 
 // Defined Routes
-app.use('/', indexRouter); //root
+app.use('/', indexRouter);//root
 app.use('/register', registerRouter);//register
 app.use('/login', loginRouter);//login
 app.use('/user', userRouter);//user profile
 app.use('/add-item', addToCartRouter);//adding to cart
+app.use('/remove-item', removeFromCartRouter);//remove from cart
+app.use('/cart', getCartRouter);//get items for cart
+app.use('/checkout', checkoutRouter);//checkout
 
 
-// Catch-all route for 404 errors
+// Handle 404 Not Found errors
 app.use((req, res, next) => {
     const error = new Error('Not Found');
     error.statusCode = 404; // Set the status code to 404
     next(error); // Pass the error to the error handler
 });
 
-
-// Catch errors display
+// Catch and display errors
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode;
-    // Catch-all error handling and return 404
+    const statusCode = err.statusCode || 500; // Default to 500 if status code is not set
+
+    // Handle 404 errors
     if (statusCode === 404) {
-        res.status(404).render('errors', {
+        return res.status(404).render('errors', {
             helper: 'f04',
             header: statusCode,
             title: '404 - Page Not Found',
@@ -128,8 +104,8 @@ app.use((err, req, res, next) => {
         });
     }
 
-    //Catch Server errors
-    if (err.statusCode >= 500 && err.statusCode < 600) {
+    // Handle server errors (500 and above)
+    if (statusCode >= 500) {
         return res.status(statusCode).render('errors', {
             helper: 'f05',
             header: statusCode,
@@ -139,7 +115,18 @@ app.use((err, req, res, next) => {
             scripts: null
         });
     }
+
+    // Handle other errors
+    res.status(statusCode).render('errors', {
+        helper: '',
+        header: statusCode,
+        title: `${statusCode} - An Error Occurred`,
+        message: err.message || 'An unexpected error occurred.',
+        layout: 'layout',
+        scripts: null
+    });
 });
+
 
 
 app.listen(PORT);

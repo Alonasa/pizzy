@@ -1,29 +1,92 @@
 <!--Products cart-->
 <!--Code taken https://bbbootstrap.com/snippets/bootstrap-ecommerce-shopping-cart-item-summary-44021562-->
+
 <div class="card">
     <div class="row">
-        <div class="col-md-8 cart">
+        <div class="col cart">
             <div class="title">
-                <div class="row">
-                    <div class="col"><h4><b>Shopping Cart</b></h4></div>
-                    <div class="col align-self-center text-right text-muted">3 items</div>
+                <div class="column d-flex justify-content-between no-gutters">
+                    <h4><b>Shopping Cart</b></h4>
+                    <p>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </p>
                 </div>
             </div>
+            <% let totalPrice = 0; %>
 
-            <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                    <div class="col">
-                        <div class="row text-muted"><%= size.toUpperCase() %></div>
-                        <div class="row"><%= product-title%></div>
+            <% cartItems.map(item => { %>
+
+                <div class="row border-top border-bottom">
+                    <div class="row main align-items-center">
+                        <div class="col-3"><img class="img-fluid" src="/img/<%= item.image %>" alt="<% item.title %>">
+                        </div>
+                        <div class="col">
+                            <div class="row text-muted"><%= item.size.toUpperCase() %></div>
+                            <div class="row"><%= item.title %></div>
+                        </div>
+                        <div class="col">&euro; <%= item.price %> <button
+                                    onclick="removeFromCart('<%= item.product_id %>', '<%= item.category_id %>', this)"
+                                    class="close">&#10005;</button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                    </div>
-                    <div class="col">&euro; <%= price %> <span class="close">&#10005;</span></div>
+                </div>
+                <% totalPrice += Number(item.price); %>
+            <% }); %>
+            <div class="row w-100">
+                <h5><b>Summary</b></h5>
+                <div class="col" style="padding-left:0;">ITEMS</div>
+                <div class="col text-right"><%- cartItems.length %></div>
+            </div>
+            <div class="row w-100" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right">&euro; <%= totalPrice.toFixed(2) %>
                 </div>
             </div>
+            <a href="/checkout" class="btn btn-warning">CHECKOUT</a>
         </div>
     </div>
 </div>
+
+
+<!--Remove item from cart-->
+<script>
+    function removeFromCart(productId, categoryId) {
+        fetch('/remove-item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({product_id: productId, category_id: categoryId}) // Send both IDs
+        })
+            .then(response => {
+                if (!response.ok) {
+                    Toastify({
+                        text: 'Network response was not ok',
+                        duration: 2000,
+                        gravity: 'top',
+                        position: 'right',
+                        backgroundColor: '#ad1840',
+                    }).showToast();
+                }
+                return response.text();
+            })
+            .then(message => {
+                Toastify({
+                    text: message,
+                    duration: 2000,
+                    gravity: 'top',
+                    position: 'right',
+                    backgroundColor: '#ffc107',
+                }).showToast();
+                const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest('.row.border-top.border-bottom');
+                if (itemRow) {
+                    itemRow.remove();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
 <!--Finish products cart-->

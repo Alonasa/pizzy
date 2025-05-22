@@ -1,4 +1,4 @@
-<% title=`Pizzy - Best pizzeria`; %>
+<% title = `Pizzy - Best pizzeria`; %>
 
 <!--Include Caurosel-->
 <%- include('chunks/caurosel') %>
@@ -58,17 +58,20 @@
                                 <div class="btn-group mb-2" aria-label="Size selection">
                                     <% product.variations.forEach((variation, index) => { %>
                                         <button
-                                                class="btn btn-outline-secondary <%= index === 0 ? 'active' : '' %>"
-                                                onclick="updatePrice('<%= product.category_id %>','<%= product.product_id %>', '<%= variation.price.toFixed(2) %>', '<%= variation.size_id %>', '<%= variation.size_title %>', this)">
+                                                class="btn btn-outline-secondary product-size <%= index === 0 ? 'active' : '' %>"
+                                                onclick="updatePrice('<%= product.category_id %>','<%= product.product_id %>', '<%= variation.price.toFixed(2) %>', '<%= variation.weight %>', '<%= variation.size_id %>', '<%= variation.size_title %>', this)">
                                             <%= variation.size_title %>
                                         </button>
                                     <% }); %>
                                 </div>
                             <% } %>
-
-                            <h6 class="card-subtitle mb-2 text-body-secondary"
-                                id="price-display-<%= product.category_id %>-<%= product.product_id %>">
-                                <%= product.price %>&#8364; <!-- Default price -->
+                            <!-- price display and weight display used for js to update price and weight-->
+                            <h6 class="card-subtitle mb-2 text-body-secondary product-price position-relative">
+                                <span id="price-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.price %>&#8364;</span>
+                                <% if (product.weight) { %>
+                                    <span class="fw-bold position-absolute end-0 fs-6"
+                                          id="weight-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.weight %>g</span>
+                                <% } %>
                             </h6>
 
                             <% if (product.ingredients) { %>
@@ -76,7 +79,10 @@
                                 <p class="small">Ingredients: <span><%= product.ingredients %></span></p>
                             <% } %>
                             <!--btn for add to cart, btn-warning means that btn will be yellow, btn-sm means that btn will be small,-->
-                            <button class="btn btn-warning btn-sm" onclick="addToCart('<%= product.product_id%>', '<%= product.product_title %>')">Add to cart</button>
+                            <button class="btn btn-warning btn-sm"
+                                    onclick="addToCart('<%= product.category_id %>', '<%= product.product_id %>', '<%= product.product_title %>', '<%= product.picture_url %>', '<%= product.price %>', 1, 's', getCurrentPrice(), getCurrentSize())">
+                                Add to cart
+                            </button>
                         </div>
                     </div>
 
@@ -88,16 +94,19 @@
     <!--        End of products list-->
 
 </div>
+<!--End of products list-->
 
 
 <% scripts = `
 <!--Import price updater module-->
 <script type="module">
-    import  {updatePrice, addToCart}  from '/js/productsUpdater.js';
+    import  {updatePrice, addToCart, getCurrentPrice, getCurrentSize}  from '/js/productsUpdater.js';
 
     // Attach "updatePrice" to the global "window" object
     window.updatePrice = updatePrice;
     window.addToCart = addToCart;
+    window.getCurrentPrice = getCurrentPrice;
+    window.getCurrentSize = getCurrentSize;
 </script>
 <!--End Import -->
 `; %>

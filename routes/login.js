@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
             // User is found, save user info in session
             req.session.cart = req.session.cart || [];
             req.session.user = email;
-            req.session.user_id = results[0].id;// Store email in session
+            req.session.user_id = results[0].id;// Store userid in session
             console.log(req.session.cart);
             console.log(req.session.user_id);
             return res.redirect('/user'); // Redirect to user profile

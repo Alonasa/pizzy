@@ -1,17 +1,18 @@
-let selectedSizeId = '';
 let selectedPrice = '';
-let selectedCategory = '';
 let selectedSize = '';
+let selectedSizeId = '';
 
-
-function updatePrice(categoryID, productId, price, size_id, size, buttonElement) {
+function updatePrice(categoryID, productId, price, weight, size_id, size, buttonElement) {
     const priceDisplay = document.getElementById(`price-display-${categoryID}-${productId}`);
+    const weightDisplay = document.getElementById(`weight-display-${categoryID}-${productId}`);
     // Update displayed price
-    priceDisplay.innerHTML = `${price}&#8364;`;
+    priceDisplay.innerHTML = `${price} &#8364;`;
+    weightDisplay.innerHTML = `${weight} g`;
+
     selectedPrice = price;
-    selectedCategory = categoryID;
-    selectedSizeId = size_id;
+    console.log(selectedPrice)
     selectedSize = size;
+    selectedSizeId = size_id;
 
     // Optional: Highlight selected button
     const buttons = buttonElement.parentElement.querySelectorAll('button');
@@ -19,17 +20,40 @@ function updatePrice(categoryID, productId, price, size_id, size, buttonElement)
     buttonElement.classList.add('active'); // Highlight the selected button
 }
 
+function getCurrentPrice() {
+    return selectedPrice;
+}
 
-function addToCart(productId, title) {
+function getCurrentSize() {
+    if (!selectedSize) {
+        return '';
+    }
+    return [selectedSizeId, selectedSize];
+}
+
+function setToNull(){
+    selectedPrice = '';
+    selectedSize = '';
+    selectedSizeId = '';
+}
+
+function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeIdDefault, sizeDefault, price, size) {
+    console.log(size);
     const data = {
         title: title,
-        category_id: selectedCategory,
+        image: pictureUrl,
+        category_id: categoryId,
         product_id: productId,
-        size_id: selectedSizeId,
-        size: selectedSize,
-        price: selectedPrice,
+        sizeId: size ? size[0] : sizeIdDefault,
+        size: size ? size[1] : sizeDefault,
+        price: price ? price : priceDefault,
         quantity: 1,
     };
+
+    // clean last selected item
+    setToNull()
+
+
 
     fetch('/add-item', {
         method: 'POST',
@@ -43,7 +67,7 @@ function addToCart(productId, title) {
                 //Toastify popup
                 Toastify({
                     text: `Product ${title} added to cart!`,
-                    duration: 3000,
+                    duration: 1000,
                     gravity: 'top', // top or bottom
                     position: 'right', // left, center or right
                     backgroundColor: '#ffc107',
@@ -51,7 +75,7 @@ function addToCart(productId, title) {
             } else {
                 Toastify({
                     text: 'Error adding product to cart',
-                    duration: 3000,
+                    duration: 2000,
                     gravity: 'top',
                     position: 'right',
                     backgroundColor: '#ad1840',
@@ -63,4 +87,4 @@ function addToCart(productId, title) {
         });
 }
 
-export {updatePrice, addToCart};
+export {updatePrice, addToCart, getCurrentPrice, getCurrentSize};

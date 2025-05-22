@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
     }
 
     req.session.cart.push(req.body);
-    console.log(req.session.cart);
+    console.log(req.session);
 
     //Send feedback that item added to cart
     res.status(200).send('Item added to cart.');

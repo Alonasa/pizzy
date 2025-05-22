@@ -46,6 +46,10 @@
                     <li class="nav-item"><a class="nav-link" href="#pizza">Pizza</a></li>
                     <li class="nav-item"><a class="nav-link" href="#sides">Sides</a></li>
                     <li class="nav-item"><a class="nav-link" href="#drinks">Drinks</a></li>
+                    <li class="nav-item">
+                        <button class="btn btn-warning" id="openCartButton">Cart
+                        </button>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,7 +76,21 @@
     <!-- Placeholder for main content-->
     <!-- Example taken: https://www.geeksforgeeks.org/use-ejs-as-template-engine-in-node-js/-->
     <%- body %>
-    <!--    End placeholder for main content-->
+    <!--End placeholder for main content-->
+
+
+<!--    Modal for cart-->
+<!--    https://getbootstrap.com/docs/5.3/components/modal/#how-it-works-->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="modal-body-content">
+                    <!-- Cart content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    End modal-->
 
     <!-- Bootstrap JS -->
     <!-- Connection of bootstrap via CDN https://getbootstrap.com/-->
@@ -87,6 +105,22 @@
         <marquee class="text-alert">Copyright &copy; 2025</marquee>
     </nav>
 </footer>
+
+<!--Popup script-->
+<script>
+    document.getElementById('openCartButton').addEventListener('click', function() {
+        fetch('/cart')
+            .then(response => response.text())
+            .then(data => {
+                const modalBody = document.getElementById('modal-body-content');
+                modalBody.innerHTML = data; // Populate modal content
+                const modal = new bootstrap.Modal(document.getElementById('cartModal'));
+                modal.show(); // Show the modal
+            })
+            .catch(error => console.error('Error fetching cart data:', error));
+    });
+</script>
+<!--End popup script-->
 
 <!-- Placeholder for scripts EJS template-->
 <% if (scripts) { %>
