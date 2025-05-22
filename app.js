@@ -99,7 +99,6 @@ app.use((err, req, res, next) => {
             header: statusCode,
             title: '404 - Page Not Found',
             message: 'The page you\'re looking for doesn\'t exist or has been moved.',
-            layout: 'layout',
             scripts: null
         });
     }
@@ -111,7 +110,6 @@ app.use((err, req, res, next) => {
             header: statusCode,
             title: `${statusCode} - Server Error Occurred`,
             message: 'We\'re sorry, but something went wrong.',
-            layout: 'layout',
             scripts: null
         });
     }
@@ -122,7 +120,6 @@ app.use((err, req, res, next) => {
         header: statusCode,
         title: `${statusCode} - An Error Occurred`,
         message: err.message || 'An unexpected error occurred.',
-        layout: 'layout',
         scripts: null
     });
 });
