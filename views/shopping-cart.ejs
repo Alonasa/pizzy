@@ -2,8 +2,8 @@
 <!--Code taken https://bbbootstrap.com/snippets/bootstrap-ecommerce-shopping-cart-item-summary-44021562-->
 
 <div class="card">
-    <div class="row">
-        <div class="col cart">
+    <div class="row p-3">
+        <div class="col">
             <div class="title">
                 <div class="column d-flex justify-content-between no-gutters">
                     <h4><b>Shopping Cart</b></h4>
@@ -17,16 +17,16 @@
             <% cartItems.map(item => { %>
 
                 <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
+                    <div class="row w-100 p-0">
                         <div class="col-3"><img class="img-fluid" src="/img/<%= item.image %>" alt="<% item.title %>">
                         </div>
                         <div class="col">
                             <div class="row text-muted"><%= item.size.toUpperCase() %></div>
                             <div class="row"><%= item.title %></div>
                         </div>
-                        <div class="col">&euro; <%= item.price %> <button
-                                    onclick="removeFromCart('<%= item.product_id %>', '<%= item.category_id %>', this)"
-                                    class="close">&#10005;</button>
+                        <div class="col text-end p-0">&euro; <%= item.price %> <button
+                                    onclick="removeFromCart('<%= item.product_id %>', '<%= item.category_id %>')"
+                                    class="close w-10">&#10005;</button>
                         </div>
                     </div>
                 </div>
@@ -46,47 +46,5 @@
         </div>
     </div>
 </div>
-
-
-<!--Remove item from cart-->
-<script>
-    function removeFromCart(productId, categoryId) {
-        fetch('/remove-item', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({product_id: productId, category_id: categoryId}) // Send both IDs
-        })
-            .then(response => {
-                if (!response.ok) {
-                    Toastify({
-                        text: 'Network response was not ok',
-                        duration: 2000,
-                        gravity: 'top',
-                        position: 'right',
-                        backgroundColor: '#ad1840',
-                    }).showToast();
-                }
-                return response.text();
-            })
-            .then(message => {
-                Toastify({
-                    text: message,
-                    duration: 2000,
-                    gravity: 'top',
-                    position: 'right',
-                    backgroundColor: '#ffc107',
-                }).showToast();
-                const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest('.row.border-top.border-bottom');
-                if (itemRow) {
-                    itemRow.remove();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-</script>
 
 <!--Finish products cart-->

@@ -83,4 +83,70 @@ function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeI
         });
 }
 
-export {updatePrice, addToCart, getCurrentPrice, getCurrentSize};
+
+function updateCart() {
+    function updateCart() {
+        fetch('/cart', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'text/html'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+                return response.text(); // Parse the rendered HTML from the server
+            })
+            .then(html => {
+                // Find the cart container element on the page
+                const cartContainer = document.getElementById('cart-container');
+                if (cartContainer) {
+                    cartContainer.innerHTML = html; // Inject the new cart content
+                }
+            })
+            .catch(error => {
+                console.error('Error updating cart:', error);
+            });
+    }
+}
+
+function removeFromCart(productId, categoryId) {
+    fetch('/remove-item', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({product_id: productId, category_id: categoryId}) // Send both IDs
+    })
+        .then(response => {
+            if (!response.ok) {
+                Toastify({
+                    text: 'Error removing product from cart',
+                    duration: 2000,
+                    gravity: 'top',
+                    position: 'right',
+                    backgroundColor: '#ad1840',
+                }).showToast();
+            }
+            return response.text();
+        })
+        .then(message => {
+            Toastify({
+                text: message,
+                duration: 2000,
+                gravity: 'top',
+                position: 'right',
+                backgroundColor: '#ffc107',
+            }).showToast();
+            const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest('.row.border-top.border-bottom');
+            if (itemRow) {
+                itemRow.remove();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+export {updatePrice, addToCart, getCurrentPrice, getCurrentSize, removeFromCart};

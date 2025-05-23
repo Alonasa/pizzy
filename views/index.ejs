@@ -104,13 +104,14 @@
 <% scripts = `
 <!--Import price updater module-->
 <script type="module">
-    import  {updatePrice, addToCart, getCurrentPrice, getCurrentSize}  from '/js/productsUpdater.js';
+    import  {updatePrice, addToCart, getCurrentPrice, getCurrentSize, removeFromCart}  from '/js/productsUpdater.js';
 
     // Attach "updatePrice" to the global "window" object
     window.updatePrice = updatePrice;
     window.addToCart = addToCart;
     window.getCurrentPrice = getCurrentPrice;
     window.getCurrentSize = getCurrentSize;
+    window.removeFromCart = removeFromCart;
 </script>
 <!--End Import -->
 `; %>

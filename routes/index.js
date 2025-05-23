@@ -166,16 +166,12 @@ router.get('/', (req, res) => {
                     });
                 }
             });
-
             // Convert the consolidated object back to an array
             return Object.values(consolidated);
         };
 
         // Call the function and get the consolidated data
         const consolidated = consolidateByCategory(results);
-
-        // Output the result as JSON
-        console.log(JSON.stringify(consolidated, null, 2));
 
         // render index page and pass there data which received from database
         res.render('index', {

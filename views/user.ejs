@@ -8,14 +8,26 @@
                 <img class="rounded-circle mt-5" width="150px" height="150px"
                      src="/img/user-icon.png"><span
                         class="font-weight-bold"><%= username %></span>
-                <span><%= email %></span><span><%= address %></span> </div>
+                <span><%= email %></span><span><%= address %></span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Information</h4>
+                <div class="column justify-content-between align-items-center mb-3">
+                    <h4 class="text-right text-warning">Profile Information</h4>
+                    <div>
+                        <div>
+                            <h5><b>Summary</b></h5>
+                        </div>
+                        <div class="col">
+                            <div class="row justify-content-between text-uppercase flex-nowrap border-bottom">
+                                Items: <span class="text-end col-5"><%= orders.length %></span>
+                            </div>
+                            <div class="row justify-content-between text-uppercase flex-nowrap border-bottom">Total Amount: <span class="text-end col-5">€ <%= ordersTotal %></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <%- include('chunks/user-orders') %>
     </div>
 </div>

@@ -1,6 +1,7 @@
 const express = require('express');//Import express
 const router = express.Router(); //Created router instance and save it to variable
-const connection = require('../config/db');// Import the database connection
+// Import the database connection
+const connection = require('../config/db');
 
 
 //Middleware to check if user is authenticated
@@ -19,31 +20,33 @@ function isAuthenticated(req, res, next) {
 // at formFieldsConfig turning on form fields on our page
 //at scripts we pass scripts if our page need them other ways null
 // Made from sample: https://expressjs.com/en/5x/api.html#res.render
-router.get('/', isAuthenticated, (req, res) => {
-    //Query to retrieve products from database
-    const sql = `SELECT * FROM customer WHERE email = ?;`
+router.get('/', isAuthenticated, async (req, res) => {
+    try {
+        const user_email = req.session.user;
+        let orders = await getOrders(req.session.user_id);
+        let customer = await getCustomer(user_email);
+        const ordersTotal = orders.reduce((acc, order) => {
+            acc += order.order_summ
+            return acc;
+        }, 0);
+        console.log(ordersTotal);
+        console.log(orders);
+        console.log(customer);
 
-    // Send request to the database to get data
-    // https://www.w3schools.com/nodejs/nodejs_mysql.asp
-
-    const email = req.session.user;
-
-    connection.query(sql, [email], (err, results) => {
-        if (err) return res.status(500).send(err.message);
-        // Check if user exists
-        if (results.length > 0) {
-            const {full_name, email, address} = results[0];
-
-            res.render('user', {
-                title: "Edit your profile",
-                layout: 'layout',
-                username: full_name,
-                email: email,
-                address: address,
-                scripts: null
-            });
-        }
-    });
+        const {full_name, email, address} = customer;
+        res.render('user', {
+            title: "Edit your profile",
+            layout: 'layout',
+            username: full_name,
+            email: email,
+            address: address,
+            orders: orders,
+            ordersTotal: ordersTotal.toFixed(2),
+            scripts: null
+        });
+    } catch (err) {
+        console.error('Failed to get orders:', err.message);
+    }
 
 });
 
@@ -63,5 +66,38 @@ router.post('/', (req, res) => {
     })
     res.redirect('/user');
 });
+
+
+const getOrders = (customerId) => {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT order_summ, order_date, \`status\` FROM \`order\` WHERE customer_id = ?;`;
+        connection.query(sql, [customerId], (err, results) => {
+            if (err) {
+                console.error('Failed to get orders:', err.message);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
+
+
+const getCustomer = (email) => {
+    return new Promise((resolve, reject) => {
+        //Query to retrieve user from database
+        const sql = `SELECT * FROM customer WHERE email = ?;`
+
+        // Send request to the database to get data
+        // https://www.w3schools.com/nodejs/nodejs_mysql.asp
+
+        connection.query(sql, [email], (err, results) => {
+            if (err) return res.status(500).send(err.message);
+            if (results.length > 0) {
+                return resolve(results[0]);
+            }
+        })
+    })
+}
+
 
 module.exports = router;
