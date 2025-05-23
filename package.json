@@ -28,8 +28,6 @@
   },
   "devDependencies": {
     "browser-sync": "^3.0.4",
-    "connect-browser-sync": "^2.1.0",
-    "connect-livereload": "^0.6.1",
-    "livereload": "^0.9.3"
+    "connect-browser-sync": "^2.1.0"
   }
 }
