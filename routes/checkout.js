@@ -7,7 +7,7 @@ const connection = require('../config/db'); // Import the database connection
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.get('/', (req, res) => {
     console.log(req.session)
-    const customerId = req.session.user; // Get customer from session
+    const customerId = req.session.user_id; // Get customer from session
     const cartItems = req.session.cart || []; // Get cart items from session
 
     if (!customerId) {
@@ -72,7 +72,7 @@ function insertOrderItems(orderId, cartItems, res, req) {
         header: 'Order placed successfully!',
         helper: 'success-page',
         title: 'Congratulations!',
-        message: `Order #${orderId} placed successfully!`,
+        message: `Order <span class="fw-bold text-info h1-font-size">#${orderId}</span> placed successfully!`,
         scripts: null
     });
 }

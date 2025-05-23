@@ -1,5 +1,6 @@
 const express = require('express');//Import express
-const connection = require('../config/db'); // Import the database connection
+const connection = require('../config/db');
+const session = require("express-session"); // Import the database connection
 const router = express.Router(); //Created router instance and save it to variable
 
 
@@ -35,6 +36,7 @@ router.get('/', (req, res) => {
 // Added routes to application https://expressjs.com/en/guide/routing.html
 router.post('/', (req, res) => {
     let {email, password} = req.body;
+    req.session.failedAttempts = (req.session.failedAttempts || 0) + 1;
     //Query to retrieve products from database
     const sql = `SELECT * FROM customer WHERE email = ? AND password = ?;`
 
@@ -51,12 +53,15 @@ router.post('/', (req, res) => {
             req.session.user_id = results[0].id;// Store userid in session
             return res.redirect('/user'); // Redirect to user profile
         } else {
-            // User not found
+
+            // User not found 5 times redirect to register
+            console.log(req.session.failedAttempts);
+            if (req.session.failedAttempts > 4) {
+                return res.redirect('/register');
+            }
             res.redirect('/login?error=Invalid email or password.');
         }
-
     })
-
 });
 
 module.exports = router;
