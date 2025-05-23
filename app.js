@@ -1,10 +1,12 @@
 const PORT = 3000;
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+
 const express = require('express');
 //imported body parser
 //https://expressjs.com/en/resources/middleware/body-parser.html
 const bodyParser = require('body-parser');
 const session = require('express-session'); //module for work with sessions
-const path = require('path');
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');

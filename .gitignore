@@ -9,6 +9,7 @@ node_modules
 *.idea/*
 *.iml
 *.iws
+.env
 
 
 # Ignore Editor-based HTTP Client requests

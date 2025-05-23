@@ -1,13 +1,16 @@
+
+
 // Connecting to database
 //Get sample from documentation
 //https://expressjs.com/en/guide/database-integration.html#mysql
 
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'ENV.DATABASE_HOST',
-    user: 'ENV.DATABASE_USER',
-    password: 'ENV.DATABASE_PASSWORD',
-    database: 'ENV.DATABASE_NAME'
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME
 })
 
 connection.connect(err => {
