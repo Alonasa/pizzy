@@ -1,6 +1,5 @@
 const express = require('express');//Import express
 const connection = require('../config/db');
-const session = require("express-session"); // Import the database connection
 const router = express.Router(); //Created router instance and save it to variable
 
 
@@ -61,7 +60,6 @@ router.post('/', (req, res) => {
             }
             res.redirect('/login?error=Invalid email or password.');
         }
-        connection.release();
     })
 });
 
