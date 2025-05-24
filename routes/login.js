@@ -61,6 +61,7 @@ router.post('/', (req, res) => {
             }
             res.redirect('/login?error=Invalid email or password.');
         }
+        connection.release();
     })
 });
 
