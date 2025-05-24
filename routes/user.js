@@ -26,12 +26,9 @@ router.get('/', isAuthenticated, async (req, res) => {
         let orders = await getOrders(req.session.user_id);
         let customer = await getCustomer(user_email);
         const ordersTotal = orders.reduce((acc, order) => {
-            acc += order.order_summ
+            acc += order.order_summ;
             return acc;
         }, 0);
-        console.log(ordersTotal);
-        console.log(orders);
-        console.log(customer);
 
         const {full_name, email, address} = customer;
         res.render('user', {
