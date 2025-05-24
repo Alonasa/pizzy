@@ -178,6 +178,7 @@ router.get('/', (req, res) => {
             layout: 'layout',
             products: consolidated
         });
+        connection.release();
 
     });
 });
