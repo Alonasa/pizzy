@@ -3,7 +3,8 @@
 
 <div class="card">
     <div class="row p-3">
-        <div class="col">
+        <!--Class card-container added to remove element from DOM-->
+        <div class="col card-container">
             <div class="title">
                 <div class="column d-flex justify-content-between no-gutters">
                     <h4><b>Shopping Cart</b></h4>
@@ -15,8 +16,8 @@
             <% let totalPrice = 0; %>
 
             <% cartItems.map(item => { %>
-
-                <div class="row border-top border-bottom">
+                <!--Class cart-item added to remove element from DOM-->
+                <div class="row border-top border-bottom cart-item">
                     <div class="row w-100 p-0">
                         <div class="col-3"><img class="img-fluid" src="/img/<%= item.image %>" alt="<% item.title %>">
                         </div>
@@ -24,8 +25,8 @@
                             <div class="row text-muted"><%= item.size.toUpperCase() %></div>
                             <div class="row"><%= item.title %></div>
                         </div>
-                        <div class="col text-end p-0">&euro; <%= item.price %> <button
-                                    onclick="removeFromCart('<%= item.product_id %>', '<%= item.category_id %>')"
+                        <div class="col text-end p-0">&euro; <span class="product-price"><%= item.price %></span> <button
+                                    onclick="removeFromCart('<%= item.product_id %>', '<%= item.category_id %>', this)"
                                     class="close w-10">&#10005;</button>
                         </div>
                     </div>
@@ -35,15 +36,16 @@
             <div class="row w-100">
                 <h5><b>Summary</b></h5>
                 <div class="col text-uppercase" style="padding-left:0;">Items</div>
-                <div class="col text-right"><%- cartItems.length %></div>
+                <div class="col text-right total-items"><%- cartItems.length %></div>
             </div>
             <div class="row w-100" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                 <div class="col text-uppercase">Total price</div>
-                <div class="col text-right">&euro; <%= totalPrice.toFixed(2) %>
+                <div class="col text-right">&euro; <span class="total-price"><%= totalPrice.toFixed(2) %></span>
                 </div>
             </div>
             <form action="/checkout" method="GET">
-                <button type="submit" class="btn btn-warning text-uppercase"  <% if (cartItems.length === 0) { %> disabled <% } %>>Checkout</button>
+                <!--submit-button added to make it disabled if cart is empty-->
+                <button type="submit" class="btn btn-warning btn-checkout text-uppercase"  <% if (cartItems.length === 0) { %> disabled <% } %>>Checkout</button>
             </form>
         </div>
     </div>

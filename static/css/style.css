@@ -95,3 +95,10 @@ remove unwanted gaps*/
     display: inline;
 }
 
+
+/*change opacity and pointer events on disabled buttons*/
+.button-disabled, .btn-checkout:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
