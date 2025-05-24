@@ -1,12 +1,14 @@
 const PORT = 3000;
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
-
 const express = require('express');
+const session = require('express-session'); //module for work with sessions
+const MySQLStore = require('express-mysql-session')(session);
+const mysql = require('mysql');
+
 //imported body parser
 //https://expressjs.com/en/resources/middleware/body-parser.html
 const bodyParser = require('body-parser');
-const session = require('express-session'); //module for work with sessions
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
@@ -16,7 +18,8 @@ const removeFromCartRouter = require('./routes/remove-item');
 const getCartRouter = require('./routes/cart');
 const checkoutRouter = require('./routes/checkout');
 const logoutRouter = require('./routes/logout');
-const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
+const expressLayouts = require('express-ejs-layouts');
+const connection = require("./config/db"); // Import express-ejs-layouts
 const app = express();
 
 // Middleware to parse incoming form data and JSON
@@ -36,10 +39,13 @@ app.set('layout', 'layout');
 
 // Middleware for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}));
+const sessionStore = new MySQLStore({}, connection);
+
 
 // Session middleware
 app.use(session({
     secret: 'keyboard cat', // Change this to a strong secret in production
+    store: sessionStore,
     resave: true,
     saveUninitialized: true,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30} // Session cookie expiration 1 month

@@ -16,17 +16,6 @@ of the screen size*/
     height: 5px;
 }
 
-/*added max height for the navigation */
-nav {
-    max-height: 10vh;
-}
-
-/*Add top indent for the main
-content to avoid covering slider with navigation*/
-main {
-    margin-top: 10vh;
-}
-
 /*Set font size, positioning of the text
 in the slider and shadow of the text for
 better accessibility for text shadow I used
@@ -54,7 +43,6 @@ cropped on big screens*/
         width: auto;
     }
 }
-
 
 /*Added background image to 404 page
 and set height to full screen height

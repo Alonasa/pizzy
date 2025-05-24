@@ -34,15 +34,17 @@
             <% }); %>
             <div class="row w-100">
                 <h5><b>Summary</b></h5>
-                <div class="col" style="padding-left:0;">ITEMS</div>
+                <div class="col text-uppercase" style="padding-left:0;">Items</div>
                 <div class="col text-right"><%- cartItems.length %></div>
             </div>
             <div class="row w-100" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">TOTAL PRICE</div>
+                <div class="col text-uppercase">Total price</div>
                 <div class="col text-right">&euro; <%= totalPrice.toFixed(2) %>
                 </div>
             </div>
-            <a href="/checkout" class="btn btn-warning">CHECKOUT</a>
+            <form action="/checkout" method="GET">
+                <button type="submit" class="btn btn-warning text-uppercase"  <% if (cartItems.length === 0) { %> disabled <% } %>>Checkout</button>
+            </form>
         </div>
     </div>
 </div>
