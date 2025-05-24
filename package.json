@@ -15,7 +15,8 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "imagemin": "node opimin.js"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
@@ -27,7 +28,8 @@
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "mysql": "^2.18.1",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "sharp": "^0.34.2"
   },
   "devDependencies": {
     "browser-sync": "^3.0.4",
