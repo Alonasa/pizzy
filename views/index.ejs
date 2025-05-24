@@ -12,7 +12,7 @@
     <!--  Spinner Block -->
     <!--  will be shown if there are no products in the database, or we're waiting for the response from the server.
   https://getbootstrap.com/docs/5.3/components/spinners/-->
-    <% if (products.length === 0 || !session.user) { %>
+    <% if (products.length === 0) { %>
         <p class="alert-message text-warning fw-bold">
             Waiting for products
             <span class="spinner-grow text-warning" role="status"></span>
@@ -22,8 +22,6 @@
         </p>
     <% } %>
     <!--        End spinner block-->
-
-    <% if (session.user) {%>
     <!--        Generating products list-->
     <% products.forEach(category => { %>
         <!-- .rounded-3 make cards borders rounded, alternative to border-radius in css
@@ -92,11 +90,7 @@
         </div>
     <% }); %>
     <!--        End of products list-->
-    <% } else { %>
-        <h2 class="alert-message text-warning fw-bold">
-            Please <a class="login-button fw-bold" href="/login">login</a> to order products
-        </h2>
-    <% } %>
+
 </div>
 <!--End of products list-->
 

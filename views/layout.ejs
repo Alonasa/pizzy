@@ -43,16 +43,13 @@
             <!-- collapse navbar-collapse blocked justify-content, because of that flex-grow-0 is necessary-->
             <div class="collapse navbar-collapse flex-grow-0" id="navbarTop">
                 <ul class="navbar-nav">
-                    <!--Conditionally render menu items depending on user status-->
-                    <% if (session.user) { %>
-                        <li class="nav-item"><a class="nav-link" href="#pizza">Pizza</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sides">Sides</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#drinks">Drinks</a></li>
-                        <li class="nav-item">
-                            <button class="btn btn-warning" id="openCartButton">Cart
-                            </button>
-                        </li>
-                    <% } %>
+                    <li class="nav-item"><a class="nav-link" href="#pizza">Pizza</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sides">Sides</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#drinks">Drinks</a></li>
+                    <li class="nav-item">
+                        <button class="btn btn-warning" id="openCartButton">Cart
+                        </button>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
