@@ -1,31 +1,23 @@
 const PORT = 3000;
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+const helmet = require('helmet');
 const express = require('express');
+const app = express();
+app.use(helmet( {contentSecurityPolicy: false}));
 const session = require('express-session'); //module for work with sessions
 const MySQLStore = require('express-mysql-session')(session);
-const mysql = require('mysql');
-
-//imported body parser
-//https://expressjs.com/en/resources/middleware/body-parser.html
-const bodyParser = require('body-parser');
-const indexRouter = require('./routes/index');
-const registerRouter = require('./routes/register');
-const loginRouter = require('./routes/login');
-const userRouter = require('./routes/user');
-const addToCartRouter = require('./routes/add-item');
-const removeFromCartRouter = require('./routes/remove-item');
-const getCartRouter = require('./routes/cart');
-const checkoutRouter = require('./routes/checkout');
-const logoutRouter = require('./routes/logout');
 const expressLayouts = require('express-ejs-layouts');
-const connection = require("./config/db"); // Import express-ejs-layouts
-const app = express();
+const connection = require("./config/db");
+const routes = require('./routes/routerApp');
+app.use(routes);
 
 // Middleware to parse incoming form data and JSON
+// Middleware for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(expressLayouts)
+
 
 //Serves all files from the `static` directory
 app.use(express.static(path.join(__dirname, '/static')));
@@ -37,12 +29,8 @@ app.set('view engine', 'ejs');
 app.set('layout', 'layout');
 
 
-// Middleware for parsing application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}));
-const sessionStore = new MySQLStore({}, connection);
-
-
 // Session middleware
+const sessionStore = new MySQLStore({}, connection);
 app.use(session({
     secret: 'keyboard cat', // Change this to a strong secret in production
     store: sessionStore,
@@ -57,18 +45,6 @@ app.use((req, res, next) => {
     res.locals.session = req.session;
     next();
 });
-
-
-// Defined Routes
-app.use('/', indexRouter);//root
-app.use('/register', registerRouter);//register
-app.use('/login', loginRouter);//login
-app.use('/user', userRouter);//user profile
-app.use('/add-item', addToCartRouter);//adding to cart
-app.use('/remove-item', removeFromCartRouter);//remove from cart
-app.use('/cart', getCartRouter);//get items for cart
-app.use('/checkout', checkoutRouter);//checkout
-app.use('/logout', logoutRouter);// logout
 
 
 // Handle 404 Not Found errors
