@@ -1,39 +1,15 @@
 <!--Render register page form-->
 <%- include('chunks/form-wrapper') %>
+<% scripts = `
+<script type="module">
+   import showPopup from "./js/popups.js";
+   import showHidePassword from "./js/showPassword.js";
 
-
-<!-- Modal -->
-<!--Used from source: https://getbootstrap.com/docs/4.0/components/modal/-->
-<div class="modal" id="error-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between">
-                <h5 class="modal-title">Wrong email or password</h5>
-                <button type="button" onclick="closeModal()" class="btn btn-warning close" data-dismiss="modal">X</button>
-            </div>
-            <div class="modal-body">
-                <p>Check Your login details</p>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<!--Script for modal closing-->
-<!--Made by sample: https://getbootstrap.com/docs/4.0/components/modal/-->
-<script>
-    function closeModal() {
-        //Hide modal
-        document.getElementById('error-modal').style.display = 'none';
-    }
+   showHidePassword();
     //Show the modal if there's an error in the URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('error')) {
-        //Show the modal
-        document.getElementById('error-modal').style.display = 'block';
+        showPopup('Wrong email or password. Please check them and try again', 'error', 'center');
     }
 </script>
-<!--End modal-->
-
-<!--End Form-->
+`;%>

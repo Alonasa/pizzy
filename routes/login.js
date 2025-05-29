@@ -27,7 +27,6 @@ router.get('/', preventLoggedInAccess, (req, res) => {
         formAction: "/login",
         formId: "loginForm",
         formMessage: null,
-        scripts: null
     });
 });
 
@@ -60,7 +59,6 @@ router.post('/', preventLoggedInAccess, (req, res) => {
             }
             res.redirect('/login?error=Invalid email or password.');
         }
-        connection.release();
     })
 });
 
