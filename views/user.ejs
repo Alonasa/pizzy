@@ -1,7 +1,7 @@
 <!--User page contain user info and orders-->
 
 <!--Borrowed part of mockup from: https://bbbootstrap.com/snippets/bootstrap-5-myprofile-90806631-->
-<div class="container">
+<div class="container mt-3">
     <div class="row text-warning p-1 m-1">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -20,14 +20,14 @@
                         </div>
                         <div class="col">
                             <div class="row justify-content-between text-uppercase flex-nowrap border-bottom">
-                                Items: <span class="text-end col-5"><%= orders.length %></span>
+                                Items: <span class="text-end col-5"><%= ordersTotal %></span>
                             </div>
-                            <div class="row justify-content-between text-uppercase flex-nowrap border-bottom">Total Amount: <span class="text-end col-5">€ <%= ordersTotal %></span></div>
+                            <div class="row justify-content-between text-uppercase flex-nowrap border-bottom">Total Amount: <span class="text-end col-5">€ <%= ordersTotalAmt %></span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <%- include('chunks/user-orders') %>
+        <%- include('chunks/user-orders', {currentPage}) %>
     </div>
 </div>
