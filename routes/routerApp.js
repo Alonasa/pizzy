@@ -13,7 +13,6 @@ const logoutRouter = require('./logout');
 
 
 // Defined Routes
-router.use('/', indexRouter);//root
 router.use('/register', registerRouter);//register
 router.use('/login', loginRouter);//login
 router.use('/user', userRouter);//user profile
@@ -22,5 +21,6 @@ router.use('/remove-item', removeFromCartRouter);//remove from cart
 router.use('/cart', getCartRouter);//get items for cart
 router.use('/checkout', checkoutRouter);//checkout
 router.use('/logout', logoutRouter);// logout
+router.use('/', indexRouter);//root
 
 module.exports = router;

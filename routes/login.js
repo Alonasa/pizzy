@@ -1,5 +1,6 @@
 const express = require('express');//Import express
 const connection = require('../config/db');
+const {preventLoggedInAccess} = require("./utils/utils");
 const router = express.Router(); //Created router instance and save it to variable
 
 
@@ -9,7 +10,7 @@ const router = express.Router(); //Created router instance and save it to variab
 //at scripts we pass scripts if our page need them other ways null
 // Made from sample: https://expressjs.com/en/5x/api.html#res.render
 
-router.get('/', (req, res) => {
+router.get('/', preventLoggedInAccess, (req, res) => {
     res.render('login', {
         title: "Login to Order your hot pizza",
         layout: 'layout',
@@ -33,7 +34,7 @@ router.get('/', (req, res) => {
 
 //POST login user
 // Added routes to application https://expressjs.com/en/guide/routing.html
-router.post('/', (req, res) => {
+router.post('/', preventLoggedInAccess, (req, res) => {
     let {email, password} = req.body;
     req.session.failedAttempts = (req.session.failedAttempts || 0) + 1;
     //Query to retrieve products from database
@@ -54,7 +55,6 @@ router.post('/', (req, res) => {
         } else {
 
             // User not found 5 times redirect to register
-            console.log(req.session.failedAttempts);
             if (req.session.failedAttempts > 4) {
                 return res.redirect('/register');
             }

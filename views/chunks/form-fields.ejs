@@ -10,7 +10,7 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 <!-- mb-3 added margin bottom -->
 <!--text-start move text to the left-->
 
-<div class="row text-warning text-start">
+<div class="row text-warning text-start" xmlns="http://www.w3.org/1999/html">
     <!-- Full Name -->
     <% if (!formTitle) { %>
 
@@ -49,15 +49,20 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
     <!-- Password -->
     <% if (showPassword) { %>
         <div class="col-sm-12 col-md-6 mb-3">
-            <label for="password" class="form-label">Password:</label>
+            <label for="password" class="form-label password-label">Password:
             <input type="password" class="form-control" id="password" name="password" minlength="4" required>
+                <i class="bi bi-eye" id="toggleIcon"></i>
+            </label>
         </div>
     <% } %>
     <!-- Confirm Password -->
     <% if (showConfirmPassword) { %>
         <div class="col-sm-12 col-md-6 mb-3">
-            <label for="confirm_password" class="form-label">Confirm Password:</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" min="4"  required>
+            <label for="confirm-password" class="form-label password-label">Confirm Password:
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password" min="4"  required>
+                <i class="bi bi-eye" id="toggleIcon"></i>
+            </label>
+
         </div>
     <% } %>
 </div>

@@ -1,3 +1,5 @@
+import showPopup from './popups.js';
+
 let selectedPrice = '';
 let selectedSize = '';
 let selectedSizeId = '';
@@ -60,7 +62,7 @@ function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeI
     })
         .then(response => {
             if (response.ok) {
-                showPopup('Product added to cart!', 'success');
+                showPopup('Product added to cart!', 'info');
             } else {
                 showPopup('Error adding product to cart', 'error');
             }
@@ -68,21 +70,6 @@ function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeI
         .catch(error => {
             console.error('Error:', error);
         });
-}
-
-function showPopup(message, status, position) {
-    // Toastify popup message
-    Toastify({
-        text: message,
-        duration: 2000,
-        gravity: 'top',
-        position: position ? position: 'right',
-        offset: {
-            x: 0,
-            y: '3em',
-        },
-        backgroundColor: status === 'error' ? '#ad1840' : '#ffc107',
-    }).showToast();
 }
 
 
@@ -96,19 +83,13 @@ function removeFromCart(productId, categoryId, element) {
     })
         .then(response => {
             if (!response.ok) {
-                Toastify({
-                    text: 'Error removing product from cart',
-                    duration: 2000,
-                    gravity: 'top',
-                    position: 'right',
-                    backgroundColor: '#ad1840',
-                }).showToast();
+                showPopup('Error removing product from cart', 'error');
             }
             return response.text();
         })
         .then(message => {
             removeItemFromCart(element);
-            showPopup(message, 'success');
+            showPopup(message, 'info');
 
             const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest('.row.border-top.border-bottom');
             if (itemRow) {

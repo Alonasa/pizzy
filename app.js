@@ -1,16 +1,16 @@
 const PORT = 3000;
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+require('dotenv').config({path: path.resolve(__dirname, './.env')});
 const helmet = require('helmet');
 const express = require('express');
 const app = express();
-app.use(helmet( {contentSecurityPolicy: false}));
+app.use(helmet({contentSecurityPolicy: false}));
 const session = require('express-session'); //module for work with sessions
 const MySQLStore = require('express-mysql-session')(session);
 const expressLayouts = require('express-ejs-layouts');
 const connection = require("./config/db");
-const routes = require('./routes/routerApp');
-app.use(routes);
+const router = require('./routes/routerApp');
+const routes = require('./routes');
 
 // Middleware to parse incoming form data and JSON
 // Middleware for parsing application/x-www-form-urlencoded
@@ -28,7 +28,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layout');
 
-
 // Session middleware
 const sessionStore = new MySQLStore({}, connection);
 app.use(session({
@@ -45,6 +44,9 @@ app.use((req, res, next) => {
     res.locals.session = req.session;
     next();
 });
+
+app.use(router);
+app.use('/', routes);
 
 
 // Handle 404 Not Found errors
