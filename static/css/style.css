@@ -107,9 +107,25 @@ remove unwanted gaps*/
     position: relative;
 }
 
+/*Show hide password icon*/
 .bi-eye {
     position: absolute;
     right: 10px;
     top: 50%;
+}
+
+.page-item .page-link {
+    color: #ffc107;
+}
+
+.page-item .page-link:hover {
+    color: rgba(255, 193, 7, 0.51);
+}
+
+.page-item .page-link.active {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #ffffff;
+    font-weight: bold;
 }
 

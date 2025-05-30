@@ -22,7 +22,9 @@
                                 </div>
                             </div>
                             <div class="col-5 text-end">
-                                <p><span>€ <%= order.order_summ %></span>
+                                <h5 class="text-warning fw-bold">#<%= order.id %></h5>
+                                <p>
+                                    <span>€ <%= order.order_summ %></span>
                                     <span><%= order.status %></span>
                                 </p>
                                 <a class="btn btn-sm btn-warning" href="/orders/<%= order.id %>">View</a>
@@ -33,9 +35,9 @@
             </div>
         </div>
         <% if (pagesCount > 1) { %>
-            <div class="row">
+            <div class="row text-warning">
             <nav aria-label="page navigation text-warning">
-                <ul class="pagination pagination-sm justify-content-center">
+                <ul class="pagination justify-content-center">
                     <li class="page-item"><a class="page-link <%= currentPage === 1 ? 'disabled' : '' %>" href="/user?page=<%= currentPage > 1 && currentPage - 1 %>">Previous</a></li>
                     <% for(let i = 1; i <= pagesCount; i++) {%>
                     <li class="page-item"><a class="page-link <%= currentPage === i ? 'active': ''%>" href="/user?page=<%= i %>"><%= i %></a></li>
