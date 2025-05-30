@@ -1,16 +1,15 @@
 const connection = require('../config/db');
-const {get} = require("browser-sync");
 
 //Define caching variables
 let productCache = null;
 let lastFetchTime = 0;
-const CACHE_EXPIRY = 3600000 * 24 * 30; //1month
-
+// const CACHE_EXPIRY = 3600000 * 24 * 30; //1month
+const CACHE_EXPIRY = 30;
 // Send request to the database to get data and save it in cache
 const fetchProducts = () => {
     //Query to retrieve products from database
     const productsQuery = `
-        (SELECT
+    SELECT
         c.id AS category_id,
         c.title AS category_title,
         p.id AS product_id,
@@ -23,15 +22,14 @@ const fetchProducts = () => {
         pr.value AS price,
         pi.url AS picture_url,
         GROUP_CONCAT(DISTINCT ing.title ORDER BY ing.title SEPARATOR ', ') AS ingredients
-        
     FROM category c
-    LEFT JOIN pizza p ON c.id = p.category_id
-    LEFT JOIN weight w ON w.product_id = p.id AND w.category_id = p.category_id
+    LEFT JOIN products p ON c.id = p.category_id
+    LEFT JOIN weight w ON w.product_id = p.id
     LEFT JOIN size s ON s.id = w.size_id
     LEFT JOIN picture pi ON p.picture_id = pi.id
     LEFT JOIN product_ingredient pr_ing ON p.id = pr_ing.product_id
-    LEFT JOIN ingredient ing ON ing.id = pr_ing.ingredient_id AND pr_ing.category_id = p.category_id
-    LEFT JOIN price pr ON pr.product_id = p.id AND pr.size_id = s.id AND pr.category_id=p.category_id
+    LEFT JOIN ingredient ing ON ing.id = pr_ing.ingredient_id
+    LEFT JOIN price pr ON pr.product_id = p.id AND pr.size_id = s.id
     WHERE p.id IS NOT NULL
     GROUP BY 
         c.id, 
@@ -44,66 +42,7 @@ const fetchProducts = () => {
         s.title, 
         w.value, 
         pr.value, 
-        pi.url)
-
-    UNION ALL
-
-    (SELECT
-        c.id AS category_id,
-        c.title AS category_title,
-        d.id AS product_id,
-        d.picture_id AS picture_id,
-        d.title AS product_title,
-        d.description,
-        NULL AS size_id,
-        NULL AS size_title,
-        NULL AS weight,
-        pr.value AS price,
-        pi.url AS picture_url,
-        NULL AS ingredients
-    FROM category c
-    LEFT JOIN drink d ON c.id = d.category_id
-    LEFT JOIN picture pi ON d.picture_id = pi.id
-    LEFT JOIN price pr ON pr.product_id = d.id  AND pr.category_id=d.category_id
-    WHERE d.id IS NOT NULL)
-
-    UNION ALL
-
-    (SELECT
-        c.id AS category_id,
-        c.title AS category_title,
-        si.id AS product_id,
-        si.picture_id AS picture_id,
-        si.title AS product_title,
-        si.description,
-        s.id AS size_id,
-        s.title AS size_title,
-        w.value AS weight,
-        pr.value AS price,
-        pi.url AS picture_url,
-        GROUP_CONCAT(DISTINCT ing.title ORDER BY ing.title SEPARATOR ', ') AS ingredients
-    FROM category c
-    LEFT JOIN side si ON c.id = si.category_id
-    LEFT JOIN weight w ON w.product_id = si.id AND w.category_id = si.category_id
-    LEFT JOIN size s ON s.id = w.size_id
-    LEFT JOIN price pr ON pr.product_id = si.id AND pr.size_id = s.id AND pr.category_id=si.category_id 
-    LEFT JOIN picture pi ON si.picture_id = pi.id
-    LEFT JOIN product_ingredient pr_ing ON si.id = pr_ing.product_id
-    LEFT JOIN ingredient ing ON ing.id = pr_ing.ingredient_id AND pr_ing.category_id = si.category_id
-    WHERE si.id IS NOT NULL
-    GROUP BY 
-        c.id, 
-        c.title, 
-        si.id, 
-        si.picture_id, 
-        si.title, 
-        si.description, 
-        si.id,
-        s.title,
-        w.value,
-        pr.value, 
-        pi.url 
-    )
+        pi.url
     ORDER BY category_id, product_id, price ASC;`;
 
     return new Promise((resolve, reject) => {

@@ -10,9 +10,11 @@ const removeFromCartRouter = require('./remove-item');
 const getCartRouter = require('./cart');
 const checkoutRouter = require('./checkout');
 const logoutRouter = require('./logout');
+const orderDetailRouter = require('./order-detail');
 
 
 // Defined Routes
+router.use('/order-detail', orderDetailRouter);//order detail
 router.use('/register', registerRouter);//register
 router.use('/login', loginRouter);//login
 router.use('/user', userRouter);//user profile
