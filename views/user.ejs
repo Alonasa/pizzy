@@ -37,15 +37,8 @@
 <script>
     const ordersButtons = document.querySelectorAll('.btn-order-detail');
 
-    async function handleClick(url, el) {
-            const response = await fetch(url, {method: 'GET'});
-
-            if (!response.ok) {
-                console.error('Fetch Error:', await response.text());
-                return;
-            } else {
-                const result = await response.json();
-                const element = \`<div class="row justify-content-center align-items-end order-items mt-2 p-0">
+    const renderElement = (result, el) => {
+        const element = \`<div class="row justify-content-center align-items-end order-items mt-2 p-0">
                     \${result.data.map(item => \`<div class="order-content col-12 col-md-3 py-3 my-1 align-items-center">
                                 <h3 class="h6">\${item.title}</h4>
                                 <div class="col p-0">
@@ -69,25 +62,41 @@
                             \`).join('')}
                 </div>\`;
                 return el.insertAdjacentHTML('afterend', element);
-            }
     }
 
+    async function handleClick(url, el) {
+            const orderId = url.split('/').pop();
+            const currentOrder = localStorage.getItem('order_' + orderId);
 
-
+            if (currentOrder){
+                return renderElement(JSON.parse(currentOrder), el);
+            } else {
+                    const response = await fetch(url, {method: 'GET'});
+                    if (!response.ok) {
+                        console.error('Fetch Error:', await response.text());
+                        return;
+                    } else {
+                        const result = await response.json();
+                        localStorage.setItem('order_' + orderId, JSON.stringify(result));
+                        renderElement(result, el);
+                     }
+                }
+    }
 
 
     ordersButtons.forEach(btn => {
         btn.addEventListener('click', async (event) => {
             event.preventDefault();
+            const row = btn.closest('.row');
+            const orderItems = row.querySelector('.order-items');
 
             if (btn.textContent === 'Show less'){
-                const orderInfo = document.querySelector('.order-items');
-                orderInfo.parentNode.removeChild(orderInfo);
+                orderItems.parentNode.removeChild(orderItems);
                 btn.textContent = 'View details';
             } else {
-                const url = btn.getAttribute('href');
-                await handleClick(url, btn.parentElement);
-                btn.textContent = 'Show less';
+                    const url = btn.getAttribute('href');
+                    await handleClick(url, btn.parentElement);
+                    btn.textContent = 'Show less';
             }
         });
     });

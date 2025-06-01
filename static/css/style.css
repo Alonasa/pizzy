@@ -130,14 +130,14 @@ remove unwanted gaps*/
 }
 
 @media (max-width: 768px) {
-    .order-info .order-content {
+    .order-items .order-content {
         border-top: 1px solid #dee2e6;
         border-bottom: 1px solid #dee2e6;
     }
 }
 
 @media (min-width: 768px) {
-    .order-info .order-content {
+    .order-items .order-content {
         border: 0;
     }
 }

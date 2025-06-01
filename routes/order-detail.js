@@ -11,12 +11,11 @@ router.get('/:id', (req, res) => {
                         INNER JOIN picture pi ON p.picture_id=pi.id
                         WHERE oi.order_id=?
                        `;
-
+    console.log('Try to get order details' + id);
     connection.query(sql, [id], (err, results) => {
         if (err) {
             return res.status(500).send('Error getting order details.');
         }
-        console.log(res);
 
 
 
