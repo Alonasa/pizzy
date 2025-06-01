@@ -3,8 +3,7 @@ const connection = require('../config/db');
 //Define caching variables
 let productCache = null;
 let lastFetchTime = 0;
-// const CACHE_EXPIRY = 3600000 * 24 * 30; //1month
-const CACHE_EXPIRY = 30;
+const CACHE_EXPIRY = 3600000 * 24 * 30; //1month
 // Send request to the database to get data and save it in cache
 const fetchProducts = () => {
     //Query to retrieve products from database

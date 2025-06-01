@@ -47,8 +47,7 @@ router.get('/', isAuthenticated, async (req, res) => {
             ordersTotal: total,
             ordersTotalAmt: sum,
             pagesCount: totalPages,
-            currentPage: page,
-            scripts: null
+            currentPage: page
         });
     } catch (err) {
         console.error('Failed to get orders:', err.message);

@@ -6,7 +6,7 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" height="150px"
-                     src="/img/user-icon.png"><span
+                     src="/img/user-icon.png" alt="User icon"><span
                         class="font-weight-bold"><%= username %></span>
                 <span><%= email %></span><span><%= address %></span></div>
         </div>
@@ -31,3 +31,66 @@
         <%- include('chunks/user-orders', {currentPage}) %>
     </div>
 </div>
+
+
+<% scripts = `
+<script>
+    const ordersButtons = document.querySelectorAll('.btn-order-detail');
+
+    async function handleClick(url, el) {
+            const response = await fetch(url, {method: 'GET'});
+
+            if (!response.ok) {
+                console.error('Fetch Error:', await response.text());
+                return;
+            } else {
+                const result = await response.json();
+                const element = \`<div class="row justify-content-center align-items-end order-items mt-2 p-0">
+                    \${result.data.map(item => \`<div class="order-content col-12 col-md-3 py-3 my-1 align-items-center">
+                                <h3 class="h6">\${item.title}</h4>
+                                <div class="col p-0">
+                                    <img class="img-fluid cover-image" src="img/\${item.url}" alt="product image">
+                                </div>
+                                <div class="col p-0">
+                                    <p class="row m-0">
+                                        <span class="col p-0 text-start fw-bold">Size</span>
+                                        <span class="col p-0 text-end">\${item.size.toUpperCase()}</span>
+                                    </p>
+                                    <p class="row m-0">
+                                        <span class="col p-0 text-start fw-bold">Quantity</span>
+                                        <span class="col p-0 text-end">\${item.quantity}</span>
+                                    </p>
+                                    <p class="row m-0">
+                                        <span class="col p-0 text-start fw-bold">Price</span>
+                                        <span class="col p-0 text-end">\${item.value} €</span>
+                                    </p>
+                                </div>
+                            </div>
+                            \`).join('')}
+                </div>\`;
+                return el.insertAdjacentHTML('afterend', element);
+            }
+    }
+
+
+
+
+
+    ordersButtons.forEach(btn => {
+        btn.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            if (btn.textContent === 'Show less'){
+                const orderInfo = document.querySelector('.order-items');
+                orderInfo.parentNode.removeChild(orderInfo);
+                btn.textContent = 'View details';
+            } else {
+                const url = btn.getAttribute('href');
+                await handleClick(url, btn.parentElement);
+                btn.textContent = 'Show less';
+            }
+        });
+    });
+</script>
+` %>
+

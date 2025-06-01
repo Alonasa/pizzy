@@ -9,43 +9,52 @@
                     </div>
                 </div>
                 <% orders.forEach(order => { %>
-                <%-console.log(order) %>
-                    <% const orderDate = new Date(order.order_date).toISOString().split('T'); %>
-                    <div class="row border-top border-bottom my-3 py-3">
-                        <div class="row align-items-center m-auto p-0">
-                            <div class="col-3 p-0"><img class="img-fluid" src="/img/pizza-slide1.jfif" alt="main order photo"></div>
-
-                            <div class="col-4">
-                                <div class="row text-muted text-start">
-                                    <span><%= orderDate[0] %></span>
-                                    <span class="text-muted"><%= orderDate[1].split('.')[0] %></span>
-                                </div>
+                <%- console.log(order) %>
+                <% const orderDate = new Date(order.order_date).toISOString().split('T'); %>
+                <div class="row border-top border-bottom my-3 py-3">
+                    <div class="row justify-content-center align-items-center m-auto p-0">
+                        <div class="col-md-9">
+                            <div class="row p-0 m-0">
+                                <span class="col-6 text-start">Order number</span><h5 class="col-6 text-warning fw-bold text-end">#<%= order.id %></h5>
                             </div>
-                            <div class="col-5 text-end">
-                                <h5 class="text-warning fw-bold">#<%= order.id %></h5>
-                                <p>
-                                    <span>€ <%= order.order_summ %></span>
-                                    <span><%= order.status %></span>
-                                </p>
-                                <a class="btn btn-sm btn-warning" href="/order-detail/<%= order.id %>">View</a>
-                            </div>
+                            <p class="row p-0 m-0">
+                                <span class="col-6 text-start">Order Date and time</span>
+                                <span class="col-6 text-end text-muted"><%= orderDate[0] %>, <%= orderDate[1].split('.')[0] %></span>
+                            </p>
+                            <p class="row p-0 m-0">
+                                <span class="col-6 text-start">Order Status</span>
+                                <span class="col-6 text-end text-muted"><%= order.status %></span>
+                            </p>
+                            <p class="row p-0 m-0">
+                                <span class="col-6 text-start">Order Sum</span>
+                                <span class="col-6 text-end text-muted"><%= order.order_summ %> €</span>
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-end order-info">
+                            <a class="btn w-100 btn-sm btn-warning btn-order-detail"
+                               href="/order-detail/<%= order.id %>">View details</a>
                         </div>
                     </div>
+                </div>
                 <% }) %>
             </div>
         </div>
         <% if (pagesCount > 1) { %>
             <div class="row text-warning">
-            <nav aria-label="page navigation text-warning">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link <%= currentPage === 1 ? 'disabled' : '' %>" href="/user?page=<%= currentPage > 1 && currentPage - 1 %>">Previous</a></li>
-                    <% for(let i = 1; i <= pagesCount; i++) {%>
-                    <li class="page-item"><a class="page-link <%= currentPage === i ? 'active': ''%>" href="/user?page=<%= i %>"><%= i %></a></li>
-                    <% } %>
-                    <li class="page-item"><a class="page-link <%= currentPage === pagesCount ? 'disabled' : '' %>" href="/user?page=<%= currentPage + 1 %>">Next</a></li>
-                </ul>
-            </nav>
-        </div>
+                <nav aria-label="page navigation text-warning">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link <%= currentPage === 1 ? 'disabled' : '' %>"
+                                                 href="/user?page=<%= currentPage > 1 && currentPage - 1 %>">Previous</a>
+                        </li>
+                        <% for(let i = 1; i <= pagesCount; i++) { %>
+                            <li class="page-item"><a class="page-link <%= currentPage === i ? 'active' : '' %>"
+                                                     href="/user?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <li class="page-item"><a class="page-link <%= currentPage === pagesCount ? 'disabled' : '' %>"
+                                                 href="/user?page=<%= currentPage + 1 %>">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
         <% } %>
     <% } else { %>
         <h3>No orders yet</h3>
