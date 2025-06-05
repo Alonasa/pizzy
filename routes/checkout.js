@@ -1,25 +1,25 @@
-const express = require('express');//Import express
+const express = require("express");//Import express
 const router = express.Router(); //Created router instance and save it to variable
-const connection = require('../config/db'); // Import the database connection
+const connection = require("../config/db"); // Import the database connection
 
 
 //Post make order
 // Added routes to application https://expressjs.com/en/guide/routing.html
-router.get('/', (req, res) => {
-    console.log(req.session)
+router.get("/", (req, res) => {
+    console.log(req.session);
     const customerId = req.session.user_id; // Get customer from session
     const cartItems = req.session.cart || []; // Get cart items from session
 
     if (!customerId) {
-        return res.redirect('/login');
+        return res.redirect("/login");
     }
 
     if (cartItems.length === 0) {
-        return res.status(400).render('errors', {
-            header: 'Something went wrong!',
-            helper: 'errors',
-            title: 'Sorry!',
-            message: 'Something went wrong. Please try to place your order later!',
+        return res.status(400).render("errors", {
+            header: "Something went wrong!",
+            helper: "errors",
+            title: "Sorry!",
+            message: "Something went wrong. Please try to place your order later!",
             scripts: null,
         });
     }
@@ -38,8 +38,8 @@ router.get('/', (req, res) => {
 
     connection.query(insertOrderQuery, orderValues, (error, results) => {
         if (error) {
-            console.error('Error inserting order:', error);
-            return res.status(500).send('Error processing order.');
+            console.error("Error inserting order:", error);
+            return res.status(500).send("Error processing order.");
         }
 
         const orderId = results.insertId; // Get the ID of the newly inserted order
@@ -60,18 +60,18 @@ function insertOrderItems(orderId, cartItems, res, req) {
         const orderItemValues = [orderId, item.product_id, item.quantity, item.category_id, item.sizeId];
         connection.query(insertOrderItemsQuery, orderItemValues, (error) => {
             if (error) {
-                console.error('Error inserting order item:', error);
-                return res.status(500).send('Error processing order items.');
+                console.error("Error inserting order item:", error);
+                return res.status(500).send("Error processing order items.");
             }
         });
     });
 
     // Clear the cart after processing the order
     req.session.cart = []; // Clear the cart
-    res.status(200).render('errors', {
-        header: 'Order placed successfully!',
-        helper: 'success-page',
-        title: 'Congratulations!',
+    res.status(200).render("errors", {
+        header: "Order placed successfully!",
+        helper: "success-page",
+        title: "Congratulations!",
         message: `Order <span class="fw-bold text-info h1-font-size">#${orderId}</span> placed successfully!`,
         scripts: null
     });

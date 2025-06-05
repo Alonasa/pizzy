@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
 
 // Directory containing images to optimize
-const imagesDir = './img';
-const outputDir = './static/img';
+const imagesDir = "./img";
+const outputDir = "./static/img";
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {
@@ -19,7 +19,7 @@ const optimizeImage = async (file) => {
     try {
         await sharp(inputFilePath)
             // Resize to a maximum width of 800px
-            .toFormat('jpg', { quality: 80 }) // Convert to JPEG with quality 80
+            .toFormat("jpg", {quality: 80}) // Convert to JPEG with quality 80
             .toFile(outputFilePath);
 
         console.log(`Optimized: ${file}`);
@@ -31,7 +31,7 @@ const optimizeImage = async (file) => {
 // Read images from the directory
 fs.readdir(imagesDir, (err, files) => {
     if (err) {
-        console.error('Error reading images directory:', err);
+        console.error("Error reading images directory:", err);
         return;
     }
 

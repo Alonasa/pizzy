@@ -1,5 +1,5 @@
 <!--Render register page form-->
-<%- include('chunks/form-wrapper') %>
+<%- include("chunks/form-wrapper") %>
 <% scripts = `
 <script type="module">
    import showPopup from "./js/popups.js";
@@ -8,8 +8,8 @@
    showHidePassword();
     //Show the modal if there's an error in the URL
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('error')) {
-        showPopup('Wrong email or password. Please check them and try again', 'error', 'center');
+    if (urlParams.has("error")) {
+        showPopup("Wrong email or password. Please check them and try again", "error", "center");
     }
 </script>
-`;%>
+`; %>

@@ -1,7 +1,7 @@
-<% title = `Pizzy - Best pizzeria`; %>
+<% title = "Pizzy - Best pizzeria"; %>
 
 <!--Include Caurosel-->
-<%- include('chunks/caurosel') %>
+<%- include("chunks/caurosel") %>
 <!--Finish Caurosel include-->
 
 <h1 class="text-center visually-hidden">Order best hot pizza Online</h1>
@@ -78,7 +78,15 @@
                             <% } %>
                             <!--btn for add to cart, btn-warning means that btn will be yellow, btn-sm means that btn will be small,-->
                             <button class="btn btn-warning btn-sm"
-                                    onclick="addToCart('<%= product.category_id %>', '<%= product.product_id %>', '<%= product.product_title %>', '<%= product.picture_url %>', '<%= product.price %>', 1, 's', getCurrentPrice(), getCurrentSize())">
+                                    onclick="addToCart('<%= product.category_id %>',
+                                            '<%= product.product_id %>',
+                                            '<%= product.product_title %>',
+                                            '<%= product.picture_url %>',
+                                            '<%= product.price %>',
+                                            1,
+                                            's',
+                                            getCurrentPrice(),
+                                            getCurrentSize())">
                                 Add to cart
                             </button>
                         </div>
@@ -98,7 +106,7 @@
 <% scripts = `
 <!--Import price updater module-->
 <script type="module">
-    import  {updatePrice, addToCart, getCurrentPrice, getCurrentSize, removeFromCart}  from './js/productsUpdater.js';
+    import  {updatePrice, addToCart, getCurrentPrice, getCurrentSize, removeFromCart}  from "./js/productsUpdater.js";
 
     // Attach "updatePrice" to the global "window" object
     window.updatePrice = updatePrice;

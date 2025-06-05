@@ -1,7 +1,7 @@
-const express = require('express');//Import express
+const express = require("express");//Import express
 const router = express.Router(); //Created router instance and save it to variable
 // Import the database connection
-const connection = require('../config/db');
+const connection = require("../config/db");
 
 
 //Middleware to check if user is authenticated
@@ -11,7 +11,7 @@ function isAuthenticated(req, res, next) {
         return next();
     }
     // Redirect to login page if not authenticated
-    return res.redirect('/login');
+    return res.redirect("/login");
 }
 
 
@@ -20,7 +20,7 @@ function isAuthenticated(req, res, next) {
 // at formFieldsConfig turning on form fields on our page
 //at scripts we pass scripts if our page need them other ways null
 // Made from sample: https://expressjs.com/en/5x/api.html#res.render
-router.get('/', isAuthenticated, async (req, res) => {
+router.get("/", isAuthenticated, async (req, res) => {
     try {
         const user_email = req.session.user;
         let customer = await getCustomer(user_email);
@@ -37,9 +37,9 @@ router.get('/', isAuthenticated, async (req, res) => {
         const totalPages = Math.ceil(total / LIMIT);
 
         const ordersList = await getOrders(req.session.user_id, LIMIT, offset);
-        res.render('user', {
+        res.render("user", {
             title: "Edit your profile",
-            layout: 'layout',
+            layout: "layout",
             username: full_name,
             email: email,
             address: address,
@@ -50,7 +50,7 @@ router.get('/', isAuthenticated, async (req, res) => {
             currentPage: page
         });
     } catch (err) {
-        console.error('Failed to get orders:', err.message);
+        console.error("Failed to get orders:", err.message);
     }
 
 });
@@ -58,18 +58,18 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 //POST create new user
 // Added routes to application https://expressjs.com/en/guide/routing.html
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
     let {full_name, phone, email, address, password} = req.body;
     //Query to retrieve products from database
     const sql = `INSERT INTO customer (full_name, phone, email, address, password)
-                     VALUES (?, ?, ?, ?, ?);`
+                     VALUES (?, ?, ?, ?, ?);`;
 
     // Send request to the database to get data
     // https://www.w3schools.com/nodejs/nodejs_mysql.asp
     connection.query(sql, [full_name, phone, email, address, password], (err) => {
         if (err) return res.status(500).send(err.message);
-    })
-    res.redirect('/user');
+    });
+    res.redirect("/user");
 });
 
 
@@ -102,7 +102,7 @@ const getOrders = (customerId, limit, offset) => {
 const getCustomer = (email) => {
     return new Promise((resolve, reject) => {
         //Query to retrieve user from database
-        const sql = `SELECT * FROM customer WHERE email = ?;`
+        const sql = `SELECT * FROM customer WHERE email = ?;`;
 
         // Send request to the database to get data
         // https://www.w3schools.com/nodejs/nodejs_mysql.asp
@@ -112,9 +112,9 @@ const getCustomer = (email) => {
             if (results.length > 0) {
                 return resolve(results[0]);
             }
-        })
-    })
-}
+        });
+    });
+};
 
 
 module.exports = router;

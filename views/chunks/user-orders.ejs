@@ -10,7 +10,7 @@
                 </div>
                 <% orders.forEach(order => { %>
                 <%- console.log(order) %>
-                <% const orderDate = new Date(order.order_date).toISOString().split('T'); %>
+                <% const orderDate = new Date(order.order_date).toISOString().split("T"); %>
                 <div class="row border-top border-bottom my-3 py-3">
                     <div class="row justify-content-center align-items-center m-auto p-0">
                         <div class="col-md-9">

@@ -42,7 +42,7 @@ router.post('/', preventLoggedInAccess, (req, res) => {
 
     // Send request to the database to get data
     // https://www.w3schools.com/nodejs/nodejs_mysql.asp
-    connection.query(sql, [email, password], (err, results) => {
+    connection.query(sql, [email], (err, results) => {
         if (err) return res.status(500).send(err.message);
         // Check if user exists
         if (results.length > 0) {
@@ -50,7 +50,14 @@ router.post('/', preventLoggedInAccess, (req, res) => {
             req.session.cart = req.session.cart || [];
             req.session.user = email;
             req.session.user_id = results[0].id;// Store userid in session
-            return res.redirect('/user'); // Redirect to user profile
+            if (results[0].password === password){
+                return res.redirect('/user'); // Redirect to user profile
+            } else {
+                if (req.session.failedAttempts > 2) {
+                    return res.redirect(`/restore-password?email=${email}`);
+                }
+                return res.redirect('/login?error=Invalid email or password.');
+            }
         } else {
 
             // User not found 5 times redirect to register

@@ -28,14 +28,14 @@
                 </div>
             </div>
         </div>
-        <%- include('chunks/user-orders', {currentPage}) %>
+        <%- include("chunks/user-orders", {currentPage}) %>
     </div>
 </div>
 
 
 <% scripts = `
 <script>
-    const ordersButtons = document.querySelectorAll('.btn-order-detail');
+    const ordersButtons = document.querySelectorAll(".btn-order-detail");
 
     const renderElement = (result, el) => {
         const element = \`<div class="row justify-content-center align-items-end order-items mt-2 p-0">
@@ -59,25 +59,25 @@
                                     </p>
                                 </div>
                             </div>
-                            \`).join('')}
+                            \`).join("")}
                 </div>\`;
-                return el.insertAdjacentHTML('afterend', element);
+                return el.insertAdjacentHTML("afterend", element);
     }
 
     async function handleClick(url, el) {
-            const orderId = url.split('/').pop();
-            const currentOrder = localStorage.getItem('order_' + orderId);
+            const orderId = url.split("/").pop();
+            const currentOrder = localStorage.getItem("order_" + orderId);
 
             if (currentOrder){
                 return renderElement(JSON.parse(currentOrder), el);
             } else {
-                    const response = await fetch(url, {method: 'GET'});
+                    const response = await fetch(url, {method: "GET"});
                     if (!response.ok) {
-                        console.error('Fetch Error:', await response.text());
+                        console.error("Fetch Error:", await response.text());
                         return;
                     } else {
                         const result = await response.json();
-                        localStorage.setItem('order_' + orderId, JSON.stringify(result));
+                        localStorage.setItem("order_" + orderId, JSON.stringify(result));
                         renderElement(result, el);
                      }
                 }
@@ -85,18 +85,18 @@
 
 
     ordersButtons.forEach(btn => {
-        btn.addEventListener('click', async (event) => {
+        btn.addEventListener("click", async (event) => {
             event.preventDefault();
-            const row = btn.closest('.row');
-            const orderItems = row.querySelector('.order-items');
+            const row = btn.closest(".row");
+            const orderItems = row.querySelector(".order-items");
 
-            if (btn.textContent === 'Show less'){
+            if (btn.textContent === "Show less"){
                 orderItems.parentNode.removeChild(orderItems);
-                btn.textContent = 'View details';
+                btn.textContent = "View details";
             } else {
-                    const url = btn.getAttribute('href');
+                    const url = btn.getAttribute("href");
                     await handleClick(url, btn.parentElement);
-                    btn.textContent = 'Show less';
+                    btn.textContent = "Show less";
             }
         });
     });

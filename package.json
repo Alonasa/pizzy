@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "body-parser": "^2.2.0",
+    "crypto": "^1.0.1",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
@@ -29,6 +30,7 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
     "mysql": "^2.18.1",
+    "nodemailer": "^7.0.3",
     "sequelize": "^6.37.7",
     "sharp": "^0.34.2"
   },

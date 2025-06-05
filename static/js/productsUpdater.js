@@ -1,8 +1,8 @@
-import showPopup from './popups.js';
+import showPopup from "./popups.js";
 
-let selectedPrice = '';
-let selectedSize = '';
-let selectedSizeId = '';
+let selectedPrice = "";
+let selectedSize = "";
+let selectedSizeId = "";
 
 function updatePrice(categoryID, productId, price, weight, size_id, size, buttonElement) {
     const priceDisplay = document.getElementById(`price-display-${categoryID}-${productId}`);
@@ -16,9 +16,9 @@ function updatePrice(categoryID, productId, price, weight, size_id, size, button
     selectedSizeId = size_id;
 
     // Optional: Highlight selected button
-    const buttons = buttonElement.parentElement.querySelectorAll('button');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    buttonElement.classList.add('active'); // Highlight the selected button
+    const buttons = buttonElement.parentElement.querySelectorAll("button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    buttonElement.classList.add("active"); // Highlight the selected button
 }
 
 function getCurrentPrice() {
@@ -27,15 +27,15 @@ function getCurrentPrice() {
 
 function getCurrentSize() {
     if (!selectedSize) {
-        return '';
+        return "";
     }
     return [selectedSizeId, selectedSize];
 }
 
 function setToNull() {
-    selectedPrice = '';
-    selectedSize = '';
-    selectedSizeId = '';
+    selectedPrice = "";
+    selectedSize = "";
+    selectedSizeId = "";
 }
 
 function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeIdDefault, sizeDefault, price, size) {
@@ -51,62 +51,62 @@ function addToCart(categoryId, productId, title, pictureUrl, priceDefault, sizeI
     };
 
     // clean last selected item
-    setToNull()
+    setToNull();
 
-    fetch('/add-item', {
-        method: 'POST',
+    fetch("/add-item", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
     })
         .then(response => {
             if (response.ok) {
-                showPopup('Product added to cart!', 'info');
+                showPopup("Product added to cart!", "info");
             } else {
-                showPopup('Error adding product to cart', 'error');
+                showPopup("Error adding product to cart", "error");
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error("Error:", error);
         });
 }
 
 
 function removeFromCart(productId, categoryId, element) {
-    fetch('/remove-item', {
-        method: 'POST',
+    fetch("/remove-item", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({product_id: productId, category_id: categoryId}) // Send both IDs
     })
         .then(response => {
             if (!response.ok) {
-                showPopup('Error removing product from cart', 'error');
+                showPopup("Error removing product from cart", "error");
             }
             return response.text();
         })
         .then(message => {
             removeItemFromCart(element);
-            showPopup(message, 'info');
+            showPopup(message, "info");
 
-            const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest('.row.border-top.border-bottom');
+            const itemRow = document.querySelector(`[data-product-id='${productId}'][data-category-id='${categoryId}']`).closest(".row.border-top.border-bottom");
             if (itemRow) {
                 itemRow.remove();
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error("Error:", error);
         });
 }
 
 //Update cart after removing item specially price and amt of items
 function updateCartData() {
-    const productsPrices = Array.from(document.querySelectorAll('.cart-item .product-price'));
-    const pricesPlaceholder = document.querySelector('.total-price');
-    const itemsPlaceholder = document.querySelector('.total-items');
-    const checkoutButton = document.querySelector('.btn-checkout');
+    const productsPrices = Array.from(document.querySelectorAll(".cart-item .product-price"));
+    const pricesPlaceholder = document.querySelector(".total-price");
+    const itemsPlaceholder = document.querySelector(".total-items");
+    const checkoutButton = document.querySelector(".btn-checkout");
 
     let cartTotalSum = productsPrices.reduce((acc, price) => {
         acc += Number(price.innerHTML);
@@ -117,14 +117,14 @@ function updateCartData() {
     itemsPlaceholder.innerHTML = productsPrices.length.toString();
 
     if (productsPrices.length === 0) {
-        showPopup('Your cart is empty', 'error', 'center');
+        showPopup("Your cart is empty", "error", "center");
         checkoutButton.disabled = true;
     }
 }
 
 //Remove item from cart by class
 function removeItemFromCart(element) {
-    const itemRow = element.closest('.cart-item');
+    const itemRow = element.closest(".cart-item");
     if (itemRow) {
         itemRow.remove();
         updateCartData();

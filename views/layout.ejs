@@ -100,25 +100,25 @@
 
 <!--Popup script-->
 <script>
-    if (!localStorage.getItem('user_id')) {
+    if (!localStorage.getItem("user_id")) {
         <% if(session.user) { %>
-        localStorage.setItem('user_id', <%= JSON.stringify(session.user_id) %>);
+        localStorage.setItem("user_id", <%= JSON.stringify(session.user_id) %>);
         <% } %>
     }
     <% if( !session.user ) { %>
-    sessionStorage.setItem('user_id', localStorage.getItem('user'));
+    sessionStorage.setItem("user_id", localStorage.getItem("user"));
     <% } %>
 
-    document.getElementById('openCartButton').addEventListener('click', function () {
-        fetch('/cart')
+    document.getElementById("openCartButton").addEventListener("click", function () {
+        fetch("/cart")
             .then(response => response.text())
             .then(data => {
-                const modalBody = document.getElementById('modal-body-content');
+                const modalBody = document.getElementById("modal-body-content");
                 modalBody.innerHTML = data; // Populate modal content
-                const modal = new bootstrap.Modal(document.getElementById('cartModal'));
+                const modal = new bootstrap.Modal(document.getElementById("cartModal"));
                 modal.show(); // Show the modal
             })
-            .catch(error => console.error('Error fetching cart data:', error));
+            .catch(error => console.error("Error fetching cart data:", error));
     });
 </script>
 <!--End popup script-->

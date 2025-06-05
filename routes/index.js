@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const {getProducts} = require("../cache/products-cahe");
 const router = express.Router();
 
 
 // GET home page and fill it with data from database
 // Added routes to application https://expressjs.com/en/guide/routing.html
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         // Get products from cache or DB
         const products = await getProducts();
         // Render the main page with products
-        res.render('index', {layout: 'layout', products: products });
+        res.render("index", {layout: "layout", products: products});
     } catch (err) {
-        console.error('Error fetching products:', err);
-        res.status(500).send('Internal Server Error');
+        console.error("Error fetching products:", err);
+        res.status(500).send("Internal Server Error");
     }
 
 });
