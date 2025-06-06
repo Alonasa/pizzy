@@ -1,4 +1,4 @@
-const connection = require('../config/db');
+const connection = require("../config/db");
 
 //Define caching variables
 let productCache = null;

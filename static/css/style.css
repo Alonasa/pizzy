@@ -108,7 +108,7 @@ remove unwanted gaps*/
 }
 
 /*Show hide password icon*/
-.bi-eye {
+.eye-icon {
     position: absolute;
     right: 10px;
     top: 50%;

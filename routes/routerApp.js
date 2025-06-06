@@ -4,6 +4,7 @@ const router = express.Router();
 const indexRouter = require("./index");
 const registerRouter = require("./register");
 const loginRouter = require("./login");
+const restorePasswordRouter = require("./restore-password");
 const userRouter = require("./user");
 const addToCartRouter = require("./add-item");
 const removeFromCartRouter = require("./remove-item");
@@ -18,6 +19,7 @@ router.use("/order-detail", orderDetailRouter);//order detail
 router.use("/register", registerRouter);//register
 router.use("/login", loginRouter);//login
 router.use("/user", userRouter);//user profile
+router.use("/restore-password", restorePasswordRouter);
 router.use("/add-item", addToCartRouter);//adding to cart
 router.use("/remove-item", removeFromCartRouter);//remove from cart
 router.use("/cart", getCartRouter);//get items for cart

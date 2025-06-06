@@ -1,8 +1,8 @@
 // Connecting to database
 //Get sample from documentation
 //https://expressjs.com/en/guide/database-integration.html#mysql
+const mysql = require("mysql");
 
-const mysql = require('mysql');
 const connection = mysql.createConnection({
     connectionLimit: 10,
     host: process.env.DATABASE_HOST,

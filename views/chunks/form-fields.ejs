@@ -16,53 +16,43 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
 
     <% } %>
 
-    <% if (showFullName) { %>
-        <div class="col-sm-12 col-md-6 mb-3">
-            <label for="full_name" class="form-label">Full Name:</label>
-            <input type="text" class="form-control" id="full_name" name="full_name" required>
-        </div>
-    <% } %>
+    <%
+    const formFieldsConfig = [
+        {showField: showFullName, label: "Full Name", id: "full_name", name: "full_name", type: "text"},
+        {showField: showPhone, label: "Phone", id: "phone", name: "phone", type: "tel"},
+        {showField: showEmail, label: "Email", id: "email", name: "email", type: "email", autocomplete: "true"},
+        {showField: showAddress, label: "Address", id: "address", name: "address", type: "text"},
+        {
+            showField: showPassword,
+            label: "Password",
+            id: "password",
+            name: "password",
+            type: "password",
+            additional: "<i class=\"bi bi-eye bi-eye-slash eye-icon\" id=\"toggleIconPassword\"></i>"
+        },
+        {
+            showField: showConfirmPassword,
+            label: "Confirm Password",
+            id: "confirm-password",
+            name: "confirm-password",
+            type: "password",
+            additional: "<i class=\"bi bi-eye bi-eye-slash eye-icon\" id=\"toggleIconConfirmPassword\"></i>"
+        }
+    ];
 
-    <!-- Phone -->
-    <% if (showPhone) { %>
+    formFieldsConfig.forEach((field) => {
+    if (field.showField) { %>
         <div class="col-sm-12 col-md-6 mb-3">
-            <label for="phone" class="form-label">Phone:</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required>
-        </div>
-    <% } %>
-
-    <!-- Email -->
-    <% if (showEmail) { %>
-        <div class="col-sm-12 col-md-6 mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-    <% } %>
-    <!-- Address -->
-    <% if (showAddress) { %>
-        <div class="col-sm-12 col-md-6 mb-3">
-            <label for="address" class="form-label">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" required>
-        </div>
-    <% } %>
-
-    <!-- Password -->
-    <% if (showPassword) { %>
-        <div class="col-sm-12 col-md-6 mb-3">
-            <label for="password" class="form-label password-label">Password:
-            <input type="password" class="form-control" id="password" name="password" minlength="4" required>
-                <i class="bi bi-eye" id="toggleIcon"></i>
+            <label for="<%= field.id ;%>" class="form-label <%= field.type === "password" ? "password-label" : "" ;%>">
+                <%= field.label ;%>:
+                <input type="<%= field.type ;%>" class="form-control" id="<%= field.id ;%>" name="<%= field.name ;%>"
+                        <%= field.type === "password" ? "minlength='4'" : "" ;%> <%- field.autocomplete ? `autocomplete=${field.autocomplete}` : ""; %>
+                       required>
+                <% if (field.additional) { %><%- field.additional; %>
+                <% } %>
             </label>
         </div>
-    <% } %>
-    <!-- Confirm Password -->
-    <% if (showConfirmPassword) { %>
-        <div class="col-sm-12 col-md-6 mb-3">
-            <label for="confirm-password" class="form-label password-label">Confirm Password:
-            <input type="password" class="form-control" id="confirm-password" name="confirm-password" min="4"  required>
-                <i class="bi bi-eye" id="toggleIcon"></i>
-            </label>
-
-        </div>
-    <% } %>
+    <% }
+    });
+    %>
 </div>
