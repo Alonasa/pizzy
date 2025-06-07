@@ -28,7 +28,7 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
             id: "password",
             name: "password",
             type: "password",
-            additional: "<i class=\"bi bi-eye bi-eye-slash eye-icon\" id=\"toggleIconPassword\"></i>"
+            additional: "<i class=\"bi bi-eye eye-icon\" id=\"toggleIconPassword\"></i>"
         },
         {
             showField: showConfirmPassword,
@@ -36,7 +36,7 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
             id: "confirm-password",
             name: "confirm-password",
             type: "password",
-            additional: "<i class=\"bi bi-eye bi-eye-slash eye-icon\" id=\"toggleIconConfirmPassword\"></i>"
+            additional: "<i class=\"bi bi-eye eye-icon\" id=\"toggleIconConfirmPassword\"></i>"
         }
     ];
 
@@ -46,7 +46,7 @@ Made by example: https://getbootstrap.com/docs/5.3/forms/overview/#overview-->
             <label for="<%= field.id ;%>" class="form-label <%= field.type === "password" ? "password-label" : "" ;%>">
                 <%= field.label ;%>:
                 <input type="<%= field.type ;%>" class="form-control" id="<%= field.id ;%>" name="<%= field.name ;%>"
-                        <%= field.type === "password" ? "minlength='4'" : "" ;%> <%- field.autocomplete ? `autocomplete=${field.autocomplete}` : ""; %>
+                        <%= field.type === "password" ? "minlength=4" : "" ;%> <%- field.autocomplete ? `autocomplete=${field.autocomplete}` : ""; %>
                        required>
                 <% if (field.additional) { %><%- field.additional; %>
                 <% } %>

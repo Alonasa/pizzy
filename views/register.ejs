@@ -5,10 +5,12 @@
 <% scripts = `
 <script type=module>
     import showPopup from "./js/popups.js";
-    import showHidePassword from "./js/showPassword.js";
+    import {showPassword, hidePassword} from "./js/showPassword.js";
 
-    showHidePassword();
-    document.getElementById('registerForm').addEventListener("submit", async function(e){
+    showPassword();
+    hidePassword();
+
+    document.getElementById("registerForm").addEventListener("submit", async function(e){
         e.preventDefault();
         const formData = new FormData(this);
         const data = Object.fromEntries(formData);
@@ -21,7 +23,7 @@
             errors.errors.forEach(err=> {
                 showPopup(err.msg, "error");
                 document.getElementById(err.path).classList.add("is-invalid");
-            })
+            });
         } else {
             const result = await response.json();
 
@@ -31,6 +33,6 @@
                 window.location.href = result.redirect;
             }
         }
-    })
+    });
 </script>
 `;%>

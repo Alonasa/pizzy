@@ -25,12 +25,15 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
     console.log("HELLO");
-    const https = require('https');
+    const https = require("https");
+
+    // Disable SSL validation globally (not recommended for production)
+    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     https.get(`https://m.pizzy.alonassko.com`, (res) => {
         console.log(`Status Code: ${res.statusCode}`);
-    }).on('error', (err) => {
-        console.error('Error:', err.message);
+    }).on("error", (err) => {
+        console.error("Error:", err.message);
     });
 
     sendEmail(req.body.email, "Restore your password",

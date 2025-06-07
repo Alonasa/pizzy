@@ -3,9 +3,11 @@
 <% scripts = `
 <script type="module">
    import showPopup from "./js/popups.js";
-   import showHidePassword from "./js/showPassword.js";
+   import {showPassword, hidePassword} from "./js/showPassword.js";
 
-   showHidePassword();
+
+   showPassword();
+   hidePassword();
     //Show the modal if there's an error in the URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("error")) {
