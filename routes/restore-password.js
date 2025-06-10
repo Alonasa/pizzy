@@ -35,6 +35,7 @@ router.post("/", (req, res) => {
     }).on("error", (err) => {
         console.error("Error:", err.message);
     });
+    console.log(req.body.email)
 
     sendEmail(req.body.email, "Restore your password",
         `You made request to restore your password for email: ${req.body.email}`).then(r => {
