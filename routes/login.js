@@ -44,14 +44,11 @@ router.post("/", preventLoggedInAccess, (req, res) => {
     // https://www.w3schools.com/nodejs/nodejs_mysql.asp
     connection.query(sql, [email], (err, results) => {
         if (err) return res.status(500).send(err.message);
-        // Check if user exists
         if (results.length > 0) {
             if (results[0].password === password) {
-                // User is found, save user info in session
                 req.session.cart = req.session.cart || [];
                 req.session.user = email;
                 req.session.user_id = results[0].id;// Store userid in session
-                console.log("Login successful");
                 return res.redirect("/user"); // Redirect to user profile
             } else {
                 if (req.session.failedAttempts > 2) {

@@ -2,16 +2,14 @@
 <%- include("chunks/form-wrapper") %>
 <% scripts = `
 <script type="module">
-   import showPopup from "./js/popups.js";
+   import showPopup from "./js/popup.js";
    import {showPassword, hidePassword} from "./js/showPassword.js";
-
-
    showPassword();
    hidePassword();
-    //Show the modal if there's an error in the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("error")) {
+
+   const urlParams = new URLSearchParams(window.location.search);
+   if (urlParams.has("error")) {
         showPopup("Wrong email or password. Please check them and try again", "error", "center");
-    }
+   }
 </script>
 `; %>

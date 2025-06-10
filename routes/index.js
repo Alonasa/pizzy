@@ -1,5 +1,5 @@
 const express = require("express");
-const {getProducts} = require("../cache/products-cahe");
+const {getProducts} = require("../helpers/cache/productsCache");
 const router = express.Router();
 
 

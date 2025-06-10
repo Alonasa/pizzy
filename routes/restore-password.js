@@ -1,7 +1,7 @@
 const express = require("express");//Import express
 const router = express.Router(); //Created router instance and save it to variable
 const {sendEmail} = require("../helpers/mailer/mailer");
-
+const connection = require("../config/db");
 
 router.get("/", (req, res) => {
     res.render("restore-password", {
@@ -23,23 +23,38 @@ router.get("/", (req, res) => {
     });
 });
 
+let errorCount = 0;
 router.post("/", (req, res) => {
-    console.log("HELLO");
-    const https = require("https");
+    const email = req.body.email.trim();
+    const query = `SELECT * FROM users WHERE email = ?`;
+    connection.query(query, [email], (err) => {
+        if (err && errorCount < 6) {
+            errorCount = errorCount + 1;
+            console.log(errorCount);
+            return res.status(400).json({
+                message: "We didn't find such email in our database, please check your email",
+                invalidAttempts: errorCount
+            });
+        } else {
+            const https = require("https");
+            https.get(`https://${process.env["EMAIL_HOST "]}`, (res) => {
+                console.log(`Status Code: ${res.statusCode}`);
+            }).on("error", (err) => {
+                console.log(`Error: ${err.message}`);
+                return res.status(500).json({
+                    message:
+                        "Email service error, please try again later"
+                });
+            });
 
-    // Disable SSL validation globally (not recommended for production)
-    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-    https.get(`https://m.pizzy.alonassko.com`, (res) => {
-        console.log(`Status Code: ${res.statusCode}`);
-    }).on("error", (err) => {
-        console.error("Error:", err.message);
-    });
-    console.log(req.body.email)
-
-    sendEmail(req.body.email, "Restore your password",
-        `You made request to restore your password for email: ${req.body.email}`).then(r => {
-        console.log(r);
+            sendEmail(email, "Restore your password",
+                `You made request to restore your password for email: ${req.body.email}`).then(r => {
+                return res.status(200).json({
+                    message:
+                        "We sent you details with restoring instructions. Please check your email!"
+                });
+            });
+        }
     });
 });
 

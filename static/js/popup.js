@@ -2,7 +2,7 @@ function showPopup(message, status, position) {
     // Toastify popup message
     Toastify({
         text: message,
-        duration: 2000,
+        duration: 5000,
         gravity: "top",
         position: position ? position : "right",
         offset: {

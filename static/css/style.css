@@ -4,6 +4,10 @@ of the screen size*/
     font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
 
+body {
+    min-height: 100vh;
+}
+
 /*Set height of half window for carousel*/
 .carousel-item {
     height: 50vh;

@@ -1,4 +1,4 @@
-import showPopup from "./popups.js";
+import showPopup from "./popup.js";
 
 let selectedPrice = "";
 let selectedSize = "";
