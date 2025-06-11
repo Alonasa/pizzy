@@ -51,7 +51,7 @@ router.post("/", preventLoggedInAccess, (req, res) => {
                 req.session.user_id = results[0].id;// Store userid in session
                 return res.redirect("/user"); // Redirect to user profile
             } else {
-                if (req.session.failedAttempts > 2) {
+                if (req.session.failedAttempts > 4) {
                     return res.redirect(`/restore-password?email=${email}`);
                 }
                 return res.redirect("/login?error=Invalid email or password.");
