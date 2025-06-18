@@ -65,10 +65,10 @@
                             <% } %>
                             <!-- price display and weight display used for js to update price and weight-->
                             <h6 class="card-subtitle mb-2 text-body-secondary product-price position-relative">
-                                <span id="price-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.price %>&#8364;</span>
+                                <span id="price-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.price %> &#8364;</span>
                                 <% if (product.weight) { %>
                                     <span class="fw-bold position-absolute end-0 fs-6"
-                                          id="weight-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.weight %>g</span>
+                                          id="weight-display-<%= product.category_id %>-<%= product.product_id %>"><%= product.weight %> g</span>
                                 <% } %>
                             </h6>
 

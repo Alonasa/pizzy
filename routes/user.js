@@ -72,6 +72,56 @@ router.post("/", (req, res) => {
     res.redirect("/user");
 });
 
+// Route to handle user details update
+router.post("/update", isAuthenticated, async (req, res) => {
+    try {
+        const { full_name, address, phone } = req.body;
+        const user_id = req.session.user_id;
+
+        try {
+            const updateSql = `
+                UPDATE customer 
+                SET ${full_name && 'full_name = ?'}${address && ', address = ?'}${phone && ', phone = ?'} 
+                WHERE id = ${user_id}
+            `;
+
+            const params = phone 
+                ? [full_name, address, phone]
+                : [full_name, address];
+
+            const result = await new Promise((resolve, reject) => {
+                connection.query(updateSql, params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ 
+                    message: "User not found" 
+                });
+            }
+
+            return res.status(200).json({ 
+                message: "User details updated successfully" 
+            });
+        } catch (err) {
+            console.error("Error updating user details:", err);
+            return res.status(500).json({ 
+                message: "Error updating user details" 
+            });
+        }
+    } catch (error) {
+        console.error("Server error:", error);
+        return res.status(500).json({ 
+            message: "Server error while updating user details" 
+        });
+    }
+});
+
 
 const getOrdersStatistic = (customerId) => {
     return new Promise((resolve, reject) => {
@@ -108,10 +158,25 @@ const getCustomer = (email) => {
         // https://www.w3schools.com/nodejs/nodejs_mysql.asp
 
         connection.query(sql, [email], (err, results) => {
-            if (err) return res.status(500).send(err.message);
+            if (err) return reject(err);
             if (results.length > 0) {
                 return resolve(results[0]);
+            } else {
+                return resolve(null);
             }
+        });
+    });
+};
+
+// Check if email exists for another user
+const checkEmailExists = (email, userId) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT id FROM customer WHERE email = ? AND id != ?";
+        connection.query(sql, [email, userId], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(results.length > 0);
         });
     });
 };

@@ -8,7 +8,7 @@ function updatePrice(categoryID, productId, price, weight, size_id, size, button
     const priceDisplay = document.getElementById(`price-display-${categoryID}-${productId}`);
     const weightDisplay = document.getElementById(`weight-display-${categoryID}-${productId}`);
     // Update displayed price
-    priceDisplay.innerText = `${price} &#8364;`;
+    priceDisplay.innerText = `${price} €`;
     weightDisplay.innerText = `${weight} g`;
 
     selectedPrice = price;

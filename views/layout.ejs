@@ -114,9 +114,9 @@
             .then(response => response.text())
             .then(data => {
                 const modalBody = document.getElementById("modal-body-content");
-                modalBody.innerText = data; // Populate modal content
+                modalBody.innerHTML = data;
                 const modal = new bootstrap.Modal(document.getElementById("cartModal"));
-                modal.show(); // Show the modal
+                modal.show();
             })
             .catch(error => console.error("Error fetching cart data:", error));
     });

@@ -6,9 +6,12 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" height="150px"
-                     src="/img/user-icon.png" alt="User icon"><span
-                        class="font-weight-bold"><%= username %></span>
-                <span><%= email %></span><span><%= address %></span></div>
+                     src="/img/user-icon.png" alt="User icon">
+                <span class="font-weight-bold"><%= username %></span>
+                <span><%= email %></span>
+                <span><%= address %></span>
+                <button id="updateDetailsBtn" class="btn btn-warning">Update Details</button>
+            </div>
         </div>
         <div class="col-md-5 border-right">
             <div class="py-3 p-md-3 py-md-5">
@@ -32,9 +35,42 @@
     </div>
 </div>
 
+<!-- Modal for updating user details -->
+<div class="modal fade" id="updateDetailsModal" tabindex="-1" aria-labelledby="updateDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-warning">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateDetailsModalLabel">Update Your Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateUserForm">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="fullName" name="full_name" value="<%= username %>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="userAddress" class="form-label">Address:</label>
+                        <input type="text" class="form-control" id="userAddress" name="address" value="<%= address %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPhone" class="form-label">Phone:</label>
+                        <input type="tel" class="form-control" id="userPhone" name="phone" placeholder="Enter your phone number">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="saveUserDetails">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <% scripts = `
-<script>
+<script type="module">
+    import showPopup from "./js/popup.js";
     const ordersButtons = document.querySelectorAll(".btn-order-detail");
 
     const renderElement = (result, el) => {
@@ -62,7 +98,7 @@
                             \`).join("")}
                 </div>\`;
                 return el.insertAdjacentHTML("afterend", element);
-    }
+    };
 
     async function handleClick(url, el) {
             const orderId = url.split("/").pop();
@@ -100,6 +136,51 @@
             }
         });
     });
+
+    const saveUserDetailsBtn = document.getElementById("saveUserDetails");
+    const updateUserForm = document.getElementById("updateUserForm");
+    const updateDetailsModalEl = document.getElementById("updateDetailsModal");
+
+
+    // Update user details functionality
+    document.addEventListener("DOMContentLoaded", () => {
+        const updateDetailsBtn = document.getElementById("updateDetailsBtn");
+        const updateDetailsModal = new bootstrap.Modal(updateDetailsModalEl);
+
+        updateDetailsBtn.addEventListener("click", () => {
+            updateDetailsModal.show();
+        });
+    });
+
+    // Handle form submission
+    saveUserDetailsBtn.addEventListener("click", async () => {
+        const formData = new FormData(updateUserForm);
+        const userData = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch("/user/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                showPopup(result.message || "Your details have been updated successfully!", "success");
+
+                document.querySelector(".font-weight-bold").textContent = userData.full_name;
+                document.querySelectorAll(".d-flex.flex-column span")[1].textContent = userData.email;
+                document.querySelectorAll(".d-flex.flex-column span")[2].textContent = userData.address;
+            } else {
+                const error = await response.json();
+                showPopup(error.message || "An error occurred while updating your details.", "error");
+            }
+        } catch (error) {
+            console.error("Error updating user details:", error);
+            showPopup("An error occurred while updating your details.", "error");
+          }
+    });
 </script>
 ` %>
-
