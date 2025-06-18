@@ -4,11 +4,10 @@
 
 <% scripts = `
 <script type=module>
-    import {showPassword, hidePassword} from "./js/showPassword.js";
+    import {changePasswordVisibility} from "./js/changePasswordVisibility.js";
     import {fetchRegister} from "./js/registerUser.js";
 
-    showPassword();
-    hidePassword();
+    changePasswordVisibility();
     fetchRegister()
 </script>
 `;%>

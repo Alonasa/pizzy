@@ -2,4 +2,12 @@ const validateEmail = (email) => {
     return email.toLowerCase().trim().match(/^\S+@\S+\.\S+$/);
 };
 
-export {validateEmail};
+const validatePasswordMatch = (password, confirmPassword) => {
+    return password === confirmPassword;
+};
+
+const validatePasswordLength = (password) => {
+    return password.length >= 5;
+};
+
+export {validateEmail, validatePasswordMatch, validatePasswordLength};

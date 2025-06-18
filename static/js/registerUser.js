@@ -1,4 +1,4 @@
-import showPopup from "./js/popup.js";
+import showPopup from "./popup.js";
 
 const fetchRegister = () => {
     document.getElementById("registerForm").addEventListener("submit", async function (e) {

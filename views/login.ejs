@@ -3,13 +3,12 @@
 <% scripts = `
 <script type="module">
    import showPopup from "./js/popup.js";
-   import {showPassword, hidePassword} from "./js/showPassword.js";
-   showPassword();
-   hidePassword();
+   import {changePasswordVisibility} from "./js/changePasswordVisibility.js";
+   changePasswordVisibility();
 
    const urlParams = new URLSearchParams(window.location.search);
    if (urlParams.has("error")) {
-        showPopup("Wrong email or password. Please check them and try again", "error", "center");
+        showPopup("Wrong email or password. Please check them and try again", "error", "center", 6);
    }
 </script>
 `; %>

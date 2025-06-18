@@ -114,7 +114,7 @@
             .then(response => response.text())
             .then(data => {
                 const modalBody = document.getElementById("modal-body-content");
-                modalBody.innerHTML = data; // Populate modal content
+                modalBody.innerText = data; // Populate modal content
                 const modal = new bootstrap.Modal(document.getElementById("cartModal"));
                 modal.show(); // Show the modal
             })

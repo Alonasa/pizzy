@@ -85,7 +85,7 @@ const showLockout = () => {
 const rerenderTime = (lockedUntil) => {
     const timeValueField = document.querySelector(".time-value");
     let {hours, minutes} = convertMilliseconds(Number(lockedUntil));
-    timeValueField.innerHTML = `${hours}:${minutes > 9 ? minutes : '0' + minutes}`;
+    timeValueField.innerText = `${hours}:${minutes > 9 ? minutes : '0' + minutes}`;
 };
 
 const renderTimeField = () => {

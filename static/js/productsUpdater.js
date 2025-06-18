@@ -8,8 +8,8 @@ function updatePrice(categoryID, productId, price, weight, size_id, size, button
     const priceDisplay = document.getElementById(`price-display-${categoryID}-${productId}`);
     const weightDisplay = document.getElementById(`weight-display-${categoryID}-${productId}`);
     // Update displayed price
-    priceDisplay.innerHTML = `${price} &#8364;`;
-    weightDisplay.innerHTML = `${weight} g`;
+    priceDisplay.innerText = `${price} &#8364;`;
+    weightDisplay.innerText = `${weight} g`;
 
     selectedPrice = price;
     selectedSize = size;
@@ -109,12 +109,12 @@ function updateCartData() {
     const checkoutButton = document.querySelector(".btn-checkout");
 
     let cartTotalSum = productsPrices.reduce((acc, price) => {
-        acc += Number(price.innerHTML);
+        acc += Number(price.innerText);
         return acc;
     }, 0).toFixed(2);
 
-    pricesPlaceholder.innerHTML = cartTotalSum;
-    itemsPlaceholder.innerHTML = productsPrices.length.toString();
+    pricesPlaceholder.innerText = cartTotalSum;
+    itemsPlaceholder.innerText = productsPrices.length.toString();
 
     if (productsPrices.length === 0) {
         showPopup("Your cart is empty", "error", "center");
